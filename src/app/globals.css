@@ -1,0 +1,23 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root { color-scheme: dark; }
+html { scroll-behavior: smooth; }
+body { @apply bg-obsidian text-ivory font-sans antialiased; }
+::selection { background: #C8A96B; color: #0B0D10; }
+
+@layer components {
+  .container-va { @apply mx-auto w-full max-w-7xl px-5 md:px-10; }
+  .eyebrow { @apply text-[11px] font-semibold uppercase tracking-brand text-gold; }
+  .h-display { @apply font-display uppercase leading-[0.92] tracking-tight; }
+  .btn-gold { @apply inline-flex items-center justify-center gap-2 rounded-full bg-gold px-7 py-4 text-sm font-semibold uppercase tracking-wider text-obsidian transition hover:bg-ivory focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-gold; }
+  .btn-ghost { @apply inline-flex items-center justify-center gap-2 rounded-full border border-ivory/30 px-7 py-4 text-sm font-semibold uppercase tracking-wider text-ivory transition hover:border-gold hover:text-gold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-gold; }
+  .card { @apply rounded-2xl border border-white/10 bg-charcoal; }
+  .field { @apply w-full rounded-xl border border-white/15 bg-obsidian px-4 py-3 text-ivory placeholder:text-steel focus:border-gold focus:outline-none; }
+  .gold-line { background: linear-gradient(90deg, transparent, #C8A96B, transparent); height: 1px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
+}

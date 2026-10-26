@@ -1,0 +1,50 @@
+'use client';
+import Link from 'next/link';
+import { useState } from 'react';
+import Monogram from './Monogram';
+import { SITE, waLink } from '@/lib/site';
+
+const nav = [
+  { href: '/propiedades/', label: 'Propiedades' },
+  { href: '/propietarios/', label: 'Propietarios' },
+  { href: '/leon-canales/', label: 'León Canales' },
+  { href: '/contacto/', label: 'Contacto' },
+];
+
+export default function Header() {
+  const [open, setOpen] = useState(false);
+  return (
+    <header className="fixed inset-x-0 top-0 z-50 border-b border-white/5 bg-obsidian/80 backdrop-blur-md">
+      <div className="container-va flex h-16 items-center justify-between md:h-20">
+        <Link href="/" className="flex items-center gap-3" aria-label="VA HOME inicio">
+          <Monogram size={36} />
+          <span className="leading-none">
+            <span className="block font-display text-xl tracking-wide">VA HOME</span>
+            <span className="block text-[9px] uppercase tracking-brand text-steel">by VibraAlto</span>
+          </span>
+        </Link>
+        <nav className="hidden items-center gap-8 md:flex" aria-label="Principal">
+          {nav.map((n) => (
+            <Link key={n.href} href={n.href} className="text-sm text-ivory/80 transition hover:text-gold">{n.label}</Link>
+          ))}
+          <a href={waLink('Hola León, te escribo desde VA HOME.')} target="_blank" rel="noopener" className="rounded-full border border-gold px-5 py-2 text-xs font-semibold uppercase tracking-wider text-gold transition hover:bg-gold hover:text-obsidian">
+            WhatsApp
+          </a>
+        </nav>
+        <button className="md:hidden" onClick={() => setOpen(!open)} aria-expanded={open} aria-controls="menu-movil" aria-label="Abrir menú">
+          <span className="block h-0.5 w-6 bg-ivory" /><span className="mt-1.5 block h-0.5 w-6 bg-ivory" /><span className="mt-1.5 block h-0.5 w-4 bg-gold" />
+        </button>
+      </div>
+      {open && (
+        <nav id="menu-movil" className="border-t border-white/10 bg-obsidian md:hidden" aria-label="Móvil">
+          <div className="container-va flex flex-col py-4">
+            {nav.map((n) => (
+              <Link key={n.href} href={n.href} onClick={() => setOpen(false)} className="py-3 font-display text-2xl uppercase">{n.label}</Link>
+            ))}
+            <a href={waLink('Hola León, te escribo desde VA HOME.')} className="btn-gold mt-4">WhatsApp {SITE.whatsappDisplay}</a>
+          </div>
+        </nav>
+      )}
+    </header>
+  );
+}

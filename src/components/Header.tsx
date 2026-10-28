@@ -3,9 +3,12 @@ import Link from 'next/link';
 import { useState } from 'react';
 import Monogram from './Monogram';
 import { SITE, waLink } from '@/lib/site';
+import { useSaved } from '@/lib/saved';
 
 const nav = [
   { href: '/propiedades/', label: 'Propiedades' },
+  { href: '/favoritos/', label: 'Favoritos' },
+  { href: '/comparar/', label: 'Comparar' },
   { href: '/propietarios/', label: 'Propietarios' },
   { href: '/leon-canales/', label: 'León Canales' },
   { href: '/contacto/', label: 'Contacto' },
@@ -13,6 +16,9 @@ const nav = [
 
 export default function Header() {
   const [open, setOpen] = useState(false);
+  const fav = useSaved('favoritos').list.length;
+  const cmp = useSaved('comparar').list.length;
+  const count = (href: string) => (href === '/favoritos/' ? fav : href === '/comparar/' ? cmp : 0);
   return (
     <header className="fixed inset-x-0 top-0 z-50 border-b border-white/5 bg-obsidian/80 backdrop-blur-md">
       <div className="container-va flex h-16 items-center justify-between md:h-20">
@@ -25,7 +31,7 @@ export default function Header() {
         </Link>
         <nav className="hidden items-center gap-8 md:flex" aria-label="Principal">
           {nav.map((n) => (
-            <Link key={n.href} href={n.href} className="text-sm text-ivory/80 transition hover:text-gold">{n.label}</Link>
+            <Link key={n.href} href={n.href} className="text-sm text-ivory/80 transition hover:text-gold">{n.label}{count(n.href) > 0 && <span className="ml-1.5 rounded-full bg-gold px-1.5 py-0.5 text-[10px] font-bold text-obsidian">{count(n.href)}</span>}</Link>
           ))}
           <a href={waLink('Hola León, te escribo desde VA HOME.')} target="_blank" rel="noopener" className="rounded-full border border-gold px-5 py-2 text-xs font-semibold uppercase tracking-wider text-gold transition hover:bg-gold hover:text-obsidian">
             WhatsApp
@@ -39,7 +45,7 @@ export default function Header() {
         <nav id="menu-movil" className="border-t border-white/10 bg-obsidian md:hidden" aria-label="Móvil">
           <div className="container-va flex flex-col py-4">
             {nav.map((n) => (
-              <Link key={n.href} href={n.href} onClick={() => setOpen(false)} className="py-3 font-display text-2xl uppercase">{n.label}</Link>
+              <Link key={n.href} href={n.href} onClick={() => setOpen(false)} className="py-3 font-display text-2xl uppercase">{n.label}{count(n.href) > 0 && <span className="ml-2 text-gold">({count(n.href)})</span>}</Link>
             ))}
             <a href={waLink('Hola León, te escribo desde VA HOME.')} className="btn-gold mt-4">WhatsApp {SITE.whatsappDisplay}</a>
           </div>

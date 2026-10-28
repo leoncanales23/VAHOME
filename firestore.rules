@@ -1,0 +1,21 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Visitas: el público solo puede crear solicitudes válidas. Nadie las lee desde el sitio.
+    match /visits/{id} {
+      allow read, update, delete: if false;
+      allow create: if request.resource.data.keys().hasOnly(['slug','ref','title','nombre','telefono','fecha','franja','mensaje','estado','createdAt'])
+        && request.resource.data.nombre is string && request.resource.data.nombre.size() > 0 && request.resource.data.nombre.size() <= 120
+        && request.resource.data.telefono is string && request.resource.data.telefono.size() >= 8 && request.resource.data.telefono.size() <= 30
+        && request.resource.data.mensaje is string && request.resource.data.mensaje.size() <= 500
+        && request.resource.data.slug is string && request.resource.data.slug.size() <= 120
+        && request.resource.data.ref is string && request.resource.data.ref.size() <= 20
+        && request.resource.data.title is string && request.resource.data.title.size() <= 200
+        && request.resource.data.fecha is string && request.resource.data.fecha.size() <= 10
+        && request.resource.data.franja is string && request.resource.data.franja.size() <= 40
+        && request.resource.data.estado == 'nueva'
+        && request.resource.data.createdAt == request.time;
+    }
+    match /{document=**} { allow read, write: if false; }
+  }
+}

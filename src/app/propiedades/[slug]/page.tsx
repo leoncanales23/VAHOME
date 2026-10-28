@@ -2,6 +2,8 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import Gallery from './Gallery';
+import SaveButtons from '@/components/SaveButtons';
+import VisitForm from '@/components/VisitForm';
 import PropertyCard from '@/components/PropertyCard';
 import { getProperty, properties, typeLabel } from '@/data/properties';
 import { SITE, clp, propertyWa } from '@/lib/site';
@@ -86,11 +88,12 @@ export default function Page({ params }: { params: { slug: string } }) {
             </ul>
             {p.verified ? (
               <div className="mt-6 flex flex-col gap-3">
-                <a href={propertyWa(p.ref, p.title, p.slug)} target="_blank" rel="noopener" className="btn-gold">Coordinar visita</a>
-                <a href={propertyWa(p.ref, p.title, p.slug, 'tengo una consulta')} target="_blank" rel="noopener" className="btn-ghost">Hacer una consulta</a>
+                <a href={propertyWa(p.ref, p.title, p.slug, 'tengo una consulta')} target="_blank" rel="noopener" className="btn-ghost">Consultar por WhatsApp</a>
                 <p className="text-center text-xs text-steel">Te responde {SITE.advisor} · {SITE.whatsappDisplay}</p>
               </div>
             ) : <p className="mt-6 text-sm text-steel">Contacto deshabilitado en fichas demo.</p>}
+            <SaveButtons slug={p.slug} title={p.title} className="mt-4" />
+            {p.verified && <VisitForm slug={p.slug} propRef={p.ref} title={p.title} />}
           </div>
         </aside>
       </div>

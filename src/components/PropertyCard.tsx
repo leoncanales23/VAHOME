@@ -1,11 +1,13 @@
 import Link from 'next/link';
 import { Property, typeLabel } from '@/data/properties';
 import { clp, propertyWa } from '@/lib/site';
+import SaveButtons from './SaveButtons';
 
 export default function PropertyCard({ p }: { p: Property }) {
   const url = `/propiedades/${p.slug}/`;
   return (
-    <article className="card group flex flex-col overflow-hidden transition hover:border-gold/50">
+    <article className="card group relative flex flex-col overflow-hidden transition hover:border-gold/50">
+      <div className="relative">
       <Link href={url} className="relative block aspect-[4/3] overflow-hidden bg-obsidian">
         {p.images[0] ? (
           <img src={p.images[0]} alt={p.title} loading="lazy" className="h-full w-full object-cover transition duration-700 group-hover:scale-105" />
@@ -18,6 +20,8 @@ export default function PropertyCard({ p }: { p: Property }) {
           <span className="rounded-full bg-obsidian/80 px-3 py-1 text-[10px] font-semibold uppercase tracking-wider text-ivory">{p.availability}</span>
         </div>
       </Link>
+      <SaveButtons slug={p.slug} title={p.title} className="absolute bottom-3 right-3" />
+      </div>
       <div className="flex flex-1 flex-col p-5">
         <p className="eyebrow">{typeLabel[p.type]} · {p.commune}</p>
         <h3 className="mt-2 font-display text-2xl uppercase leading-tight">{p.title}</h3>

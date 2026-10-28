@@ -11,7 +11,7 @@ const HERO_IMG = '/leon/leon-canales-2026-10.jpg';
 const line = { hidden: { y: '110%' }, show: (i: number) => ({ y: 0, transition: { duration: 0.9, delay: 0.15 + i * 0.12, ease: [0.22, 1, 0.36, 1] } }) };
 
 const stroke = { fill: 'none', stroke: 'currentColor', strokeWidth: 1.6, strokeLinecap: 'round', strokeLinejoin: 'round' } as const;
-const services = [
+export const services = [
   { href: '/propiedades/?op=venta', title: 'Venta de propiedades', text: 'Tu próximo hogar te espera.',
     icon: <svg viewBox="0 0 32 32" width="34" height="34" aria-hidden="true" {...stroke}><path d="M4 15 L16 5 L28 15 M7 13 V27 H25 V13 M13 27 V19 H19 V27 M22 6 V10" /></svg> },
   { href: '/propiedades/?op=arriendo', title: 'Arriendos', text: 'Flexibilidad y tranquilidad.',

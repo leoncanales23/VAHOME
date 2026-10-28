@@ -4,6 +4,7 @@ export const SITE = {
   tagline: 'TU ESPACIO. TU PRÓXIMO PASO.',
   catchphrase: '¿Necesitas un lugar? Habla con León.',
   signature: 'Tu próximo capítulo comienza aquí.',
+  phone: '+56971747072',
   role: 'Corredor de propiedades',
   advisor: 'León Canales',
   company: 'Vibra SpA',

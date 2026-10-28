@@ -2,6 +2,7 @@ export const SITE = {
   name: 'VA HOME',
   url: 'https://vahome.vibraalto.cl',
   tagline: 'TU ESPACIO. TU PRÓXIMO PASO.',
+  catchphrase: '¿Necesitas un lugar? Habla con León.',
   advisor: 'León Canales',
   company: 'Vibra SpA',
   rut: '77.122.967-0',

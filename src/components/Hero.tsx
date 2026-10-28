@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { motion, useReducedMotion, useScroll, useTransform } from 'framer-motion';
 import Portrait from './Portrait';
 import QuickSearch from './QuickSearch';
+import { SITE } from '@/lib/site';
 
 const line = { hidden: { y: '110%' }, show: (i: number) => ({ y: 0, transition: { duration: 0.9, delay: 0.15 + i * 0.12, ease: [0.22, 1, 0.36, 1] } }) };
 
@@ -45,6 +46,7 @@ export default function Hero() {
           <div className="absolute -bottom-5 left-6 right-6 rounded-xl border border-gold/40 bg-obsidian/90 px-5 py-4 backdrop-blur">
             <p className="font-display text-2xl tracking-wide">LEÓN CANALES</p>
             <p className="text-[10px] uppercase tracking-brand text-gold">VA HOME | Real Estate</p>
+            <p className="mt-2 border-t border-white/10 pt-2 text-sm italic text-ivory/85">“{SITE.catchphrase}”</p>
           </div>
         </motion.div>
       </div>

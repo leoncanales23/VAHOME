@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import Hero from '@/components/Hero';
+import QuickSearch from '@/components/QuickSearch';
 import Reveal from '@/components/Reveal';
 import PropertyCard from '@/components/PropertyCard';
 import Portrait from '@/components/Portrait';
@@ -12,6 +13,7 @@ export default function Home() {
   return (
     <>
       <Hero />
+      <div className="container-va relative z-10 -mt-8"><QuickSearch /></div>
 
       {/* Propiedad destacada */}
       <section className="relative mt-16 border-y border-white/10 bg-charcoal">

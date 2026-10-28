@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "site": "va-home",
+    "site": "va-home-d3708",
     "public": "out",
     "cleanUrls": true,
     "trailingSlash": true,

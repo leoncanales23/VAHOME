@@ -12,7 +12,7 @@ npm run dev        # http://localhost:3000
 npm run build      # genera out/
 firebase deploy --only hosting
 ```
-`firebase.json` apunta al sitio `va-home` del proyecto `vibraaltoai-11f55` (ver `.firebaserc`). El dominio `vahome.vibraalto.cl` se conecta en Firebase Hosting → "Agregar un dominio personalizado" y en Cloudflare (CNAME `vahome` → `va-home.web.app`, solo DNS).
+`firebase.json` apunta al sitio `va-home-d3708` del proyecto `va-home-d3708` (ver `.firebaserc`). El dominio `vahome.vibraalto.cl` se conecta en Firebase Hosting → "Agregar un dominio personalizado" y en Cloudflare (CNAME `vahome` → `va-home-d3708.web.app`, solo DNS).
 
 ## Estructura
 - `src/data/properties.ts` — registro de propiedades. `verified: true` solo para datos confirmados; las `DEMO-*` se muestran marcadas y no se indexan.

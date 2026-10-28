@@ -31,7 +31,7 @@ firebase deploy --only hosting
 | 6. Producción | ⏳ |
 
 ## Pendientes antes de publicar
-- [ ] Foto oficial autorizada de León → `public/leon/retrato.jpg` y pasar `src` a `<Portrait />`.
+- [ ] Foto oficial autorizada de León → `public/leon/leon-canales-2026-10.jpg` y pasar `src` a `<Portrait />`.
 - [ ] Superficie (m²) del Local 170.
 - [ ] Reemplazar demos por propiedades verificadas.
 - [ ] Revisión legal de `/legal/*` (marcados como borrador).

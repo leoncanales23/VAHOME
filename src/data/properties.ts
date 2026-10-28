@@ -23,7 +23,8 @@ export interface Property {
   bedrooms?: number;
   bathrooms?: number;
   parking?: number;
-  areaM2?: number | null;     // null = pendiente de medición
+  areaM2?: number | null;     // null = pendiente de medición (si hay `dimensions`, se calcula de ahí)
+  dimensions?: { widthM: number; lengthM: number; heightM?: number };  // metros
   availability: 'disponible' | 'reservada' | 'arrendada';
   features: string[];
   conditions: string[];
@@ -53,6 +54,7 @@ export const properties: Property[] = [
     ],
     bathrooms: 1,
     areaM2: null,
+    dimensions: { widthM: 2.3, lengthM: 4.6, heightM: 2.5 },
     availability: 'disponible',
     features: [
       'Vitrina en esquina con doble frente',
@@ -108,3 +110,10 @@ export const typeLabel: Record<PropertyType, string> = {
 };
 
 export const getProperty = (slug: string) => properties.find((p) => p.slug === slug);
+
+const nf = new Intl.NumberFormat('es-CL', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+export const fmtM = (n: number) => nf.format(n);
+
+/** Superficie en m²: la declarada o, si hay medidas, ancho × largo. */
+export const areaOf = (p: Property): number | null =>
+  p.areaM2 ?? (p.dimensions ? Math.round(p.dimensions.widthM * p.dimensions.lengthM * 100) / 100 : null);

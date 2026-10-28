@@ -1,6 +1,6 @@
 'use client';
 import Link from 'next/link';
-import { properties, typeLabel } from '@/data/properties';
+import { areaOf, fmtM, properties, typeLabel } from '@/data/properties';
 import { COMPARE_MAX, useSaved } from '@/lib/saved';
 import { clp, propertyWa } from '@/lib/site';
 
@@ -22,7 +22,8 @@ export default function Compare() {
     { label: 'Tipo', get: (p) => typeLabel[p.type] },
     { label: 'Comuna', get: (p) => p.commune },
     { label: 'Precio', get: (p) => clp(p.price) + (p.operation === 'arriendo' ? ' / mes' : '') },
-    { label: 'Superficie', get: (p) => (p.areaM2 ? `${p.areaM2} m²` : 'Por confirmar') },
+    { label: 'Superficie', get: (p) => (areaOf(p) ? `${fmtM(areaOf(p)!)} m²` : 'Por confirmar') },
+    { label: 'Medidas', get: (p) => (p.dimensions ? `${fmtM(p.dimensions.widthM)} × ${fmtM(p.dimensions.lengthM)} m` + (p.dimensions.heightM ? ` · alto ${fmtM(p.dimensions.heightM)} m` : '') : dash) },
     { label: 'Dormitorios', get: (p) => (p.bedrooms != null ? String(p.bedrooms) : dash) },
     { label: 'Baños', get: (p) => (p.bathrooms != null ? String(p.bathrooms) : dash) },
     { label: 'Estacionamientos', get: (p) => (p.parking != null ? String(p.parking) : dash) },

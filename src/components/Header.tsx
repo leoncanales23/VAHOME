@@ -1,7 +1,6 @@
 'use client';
 import Link from 'next/link';
 import { useState } from 'react';
-import Monogram from './Monogram';
 import { SITE, waLink } from '@/lib/site';
 import { useSaved } from '@/lib/saved';
 
@@ -22,19 +21,19 @@ export default function Header() {
   return (
     <header className="fixed inset-x-0 top-0 z-50 border-b border-white/5 bg-obsidian/80 backdrop-blur-md">
       <div className="container-va flex h-16 items-center justify-between md:h-20">
-        <Link href="/" className="flex items-center gap-3" aria-label="VA HOME inicio">
-          <Monogram size={36} />
+        <Link href="/" className="flex items-center gap-3" aria-label={`${SITE.advisor}, ${SITE.role} · VA HOME inicio`}>
+          <svg viewBox="0 0 32 32" width="38" height="38" aria-hidden="true" className="text-gold" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinejoin="round"><path d="M4 15 L16 5 L28 15 M7 12.5 V27 H25 V12.5 M22 7 V10.5" /></svg>
           <span className="leading-none">
-            <span className="block font-display text-xl tracking-wide">VA HOME</span>
-            <span className="block text-[9px] uppercase tracking-brand text-steel">by VibraAlto</span>
+            <span className="block font-display text-base uppercase tracking-[0.22em] md:text-lg">{SITE.advisor}</span>
+            <span className="mt-1 block text-[9px] uppercase tracking-[0.32em] text-ivory/70">{SITE.role}</span>
           </span>
         </Link>
-        <nav className="hidden items-center gap-8 md:flex" aria-label="Principal">
+        <nav className="hidden items-center gap-6 md:flex lg:gap-8" aria-label="Principal">
           {nav.map((n) => (
             <Link key={n.href} href={n.href} className="text-sm text-ivory/80 transition hover:text-gold">{n.label}{count(n.href) > 0 && <span className="ml-1.5 rounded-full bg-gold px-1.5 py-0.5 text-[10px] font-bold text-obsidian">{count(n.href)}</span>}</Link>
           ))}
-          <a href={waLink('Hola León, te escribo desde VA HOME.')} target="_blank" rel="noopener" className="rounded-full border border-gold px-5 py-2 text-xs font-semibold uppercase tracking-wider text-gold transition hover:bg-gold hover:text-obsidian">
-            WhatsApp
+          <a href={waLink('Hola León, te escribo desde VA HOME.')} target="_blank" rel="noopener" className="rounded-full border border-gold px-6 py-2.5 text-xs font-semibold uppercase tracking-wider text-ivory transition hover:bg-gold hover:text-obsidian">
+            Contáctame →
           </a>
         </nav>
         <button className="md:hidden" onClick={() => setOpen(!open)} aria-expanded={open} aria-controls="menu-movil" aria-label="Abrir menú">

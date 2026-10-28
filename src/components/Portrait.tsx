@@ -4,7 +4,7 @@ export default function Portrait({ src = '/leon/leon-canales-2026-10.jpg', class
   if (src) return <img src={src} alt="León Canales, asesor inmobiliario de VA HOME" className={`h-full w-full object-cover ${className}`} />;
   return (
     <div className={`relative flex h-full w-full items-center justify-center overflow-hidden bg-charcoal ${className}`}>
-      <div className="absolute inset-0 opacity-30" style={{ backgroundImage: 'repeating-linear-gradient(90deg, rgba(200,169,107,.12) 0 1px, transparent 1px 72px), repeating-linear-gradient(0deg, rgba(200,169,107,.08) 0 1px, transparent 1px 72px)' }} />
+      <div className="absolute inset-0 opacity-30" style={{ backgroundImage: 'repeating-linear-gradient(90deg, rgba(217,178,106,.12) 0 1px, transparent 1px 72px), repeating-linear-gradient(0deg, rgba(217,178,106,.08) 0 1px, transparent 1px 72px)' }} />
       <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-obsidian to-transparent" />
       <div className="relative text-center">
         <span className="h-display block text-[9rem] leading-none text-gold/90 md:text-[12rem]">LC</span>

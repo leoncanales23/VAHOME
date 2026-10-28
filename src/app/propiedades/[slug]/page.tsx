@@ -5,7 +5,7 @@ import Gallery from './Gallery';
 import SaveButtons from '@/components/SaveButtons';
 import VisitForm from '@/components/VisitForm';
 import PropertyCard from '@/components/PropertyCard';
-import { getProperty, properties, typeLabel } from '@/data/properties';
+import { areaOf, fmtM, getProperty, properties, typeLabel } from '@/data/properties';
 import { SITE, clp, propertyWa } from '@/lib/site';
 
 export const generateStaticParams = () => properties.map((p) => ({ slug: p.slug }));
@@ -25,10 +25,11 @@ export default function Page({ params }: { params: { slug: string } }) {
   const p = getProperty(params.slug);
   if (!p) notFound();
   const similar = properties.filter((x) => x.slug !== p.slug && (x.type === p.type || x.commune === p.commune)).slice(0, 3);
+  const area = areaOf(p);
   const jsonLd = p.verified ? {
     '@context': 'https://schema.org', '@type': 'Offer', name: p.title, price: p.price, priceCurrency: 'CLP',
     availability: 'https://schema.org/InStock', url: `${SITE.url}/propiedades/${p.slug}/`,
-    itemOffered: { '@type': 'Place', name: p.title, address: { '@type': 'PostalAddress', streetAddress: p.addressPublic, addressLocality: p.commune, addressRegion: p.region, addressCountry: 'CL' } },
+    itemOffered: { '@type': 'Place', name: p.title, ...(area && { floorSize: { '@type': 'QuantitativeValue', value: area, unitCode: 'MTK' } }), address: { '@type': 'PostalAddress', streetAddress: p.addressPublic, addressLocality: p.commune, addressRegion: p.region, addressCountry: 'CL' } },
   } : null;
   return (
     <div className="container-va pb-24 pt-28">
@@ -44,6 +45,25 @@ export default function Page({ params }: { params: { slug: string } }) {
             <p className="mt-3 text-xl text-gold">{p.headline}</p>
             <p className="mt-6 leading-relaxed text-ivory/80">{p.description}</p>
           </section>
+          {p.dimensions && (
+            <section className="mt-10">
+              <h2 className="font-display text-3xl uppercase">Medidas</h2>
+              <dl className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-4">
+                {[
+                  ['Ancho', `${fmtM(p.dimensions.widthM)} m`],
+                  ['Largo', `${fmtM(p.dimensions.lengthM)} m`],
+                  ...(p.dimensions.heightM ? [['Alto', `${fmtM(p.dimensions.heightM)} m`]] : []),
+                  ...(area ? [['Superficie', `${fmtM(area)} m²`]] : []),
+                ].map(([k, v]) => (
+                  <div key={k} className="card px-4 py-4">
+                    <dt className="text-[11px] uppercase tracking-wider text-steel">{k}</dt>
+                    <dd className="mt-1 font-display text-3xl text-gold">{v}</dd>
+                  </div>
+                ))}
+              </dl>
+              <p className="mt-2 text-xs text-steel">Medidas informadas por el propietario; la superficie es ancho × largo. Se confirman en la visita.</p>
+            </section>
+          )}
           <section className="mt-10">
             <h2 className="font-display text-3xl uppercase">Características</h2>
             <ul className="mt-4 grid gap-3 sm:grid-cols-2">

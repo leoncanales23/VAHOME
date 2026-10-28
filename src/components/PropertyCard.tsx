@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Property, typeLabel } from '@/data/properties';
+import { Property, areaOf, fmtM, typeLabel } from '@/data/properties';
 import { clp, propertyWa } from '@/lib/site';
 import SaveButtons from './SaveButtons';
 
@@ -34,7 +34,7 @@ export default function PropertyCard({ p }: { p: Property }) {
           {p.bedrooms != null && <li>{p.bedrooms} dorm.</li>}
           {p.bathrooms != null && <li>{p.bathrooms} baño{p.bathrooms > 1 ? 's' : ''}</li>}
           {p.parking != null && <li>{p.parking} estac.</li>}
-          <li>{p.areaM2 ? `${p.areaM2} m²` : 'm² por confirmar'}</li>
+          <li>{areaOf(p) ? `${fmtM(areaOf(p)!)} m²` : 'm² por confirmar'}</li>
         </ul>
         <div className="mt-auto flex gap-2 pt-5">
           <Link href={url} className="btn-ghost flex-1 px-4 py-3 text-xs">Ver detalle</Link>

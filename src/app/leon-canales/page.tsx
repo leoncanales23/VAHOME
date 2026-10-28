@@ -9,7 +9,8 @@ export default function Page() {
       <div>
         <p className="eyebrow">Real Estate Advisor &amp; Business Development</p>
         <h1 className="h-display mt-3 text-6xl md:text-8xl">León<br /><span className="text-gold">Canales</span></h1>
-        <p className="mt-6 text-xl">Detrás de cada buen acuerdo, hay una conversación.</p>
+        <p className="mt-6 font-display text-3xl uppercase text-gold md:text-4xl">{SITE.catchphrase}</p>
+        <p className="mt-4 text-xl">Detrás de cada buen acuerdo, hay una conversación.</p>
         <p className="mt-4 max-w-xl text-ivory/75">León es la persona responsable de las relaciones comerciales de VA HOME. Atiende a propietarios y arrendatarios, presenta cada propiedad y acompaña la negociación hasta la firma.</p>
         <ul className="mt-8 grid gap-3 sm:grid-cols-2">
           {['Atención personalizada', 'Negociación comercial', 'Presentación de propiedades', 'Marketing digital', 'Gestión apoyada en tecnología', 'Relación con propietarios y arrendatarios'].map((x) => (

@@ -1,10 +1,11 @@
 import Link from 'next/link';
 import Hero from '@/components/Hero';
+import QuickSearch from '@/components/QuickSearch';
 import Reveal from '@/components/Reveal';
 import PropertyCard from '@/components/PropertyCard';
 import Portrait from '@/components/Portrait';
 import { properties } from '@/data/properties';
-import { clp, propertyWa, waLink } from '@/lib/site';
+import { SITE, clp, propertyWa, waLink } from '@/lib/site';
 
 export default function Home() {
   const featured = properties.find((p) => p.featured && p.verified)!;
@@ -12,6 +13,7 @@ export default function Home() {
   return (
     <>
       <Hero />
+      <div className="container-va relative z-10 -mt-8"><QuickSearch /></div>
 
       {/* Propiedad destacada */}
       <section className="relative mt-16 border-y border-white/10 bg-charcoal">
@@ -90,7 +92,8 @@ export default function Home() {
         <Reveal><div className="aspect-[4/5] overflow-hidden rounded-[28px] border border-gold/30"><Portrait /></div></Reveal>
         <Reveal delay={0.1}>
           <p className="eyebrow">León Canales</p>
-          <h2 className="h-display mt-3 text-5xl md:text-6xl">Detrás de cada buen acuerdo, hay una conversación.</h2>
+          <p className="mt-3 font-display text-3xl uppercase text-gold md:text-4xl">{SITE.catchphrase}</p>
+          <h2 className="h-display mt-6 text-4xl md:text-5xl">Detrás de cada buen acuerdo, hay una conversación.</h2>
           <p className="mt-5 max-w-xl text-ivory/75">León lidera las relaciones comerciales de VA HOME: atiende personalmente a propietarios y arrendatarios, presenta cada propiedad y acompaña la negociación hasta el contrato.</p>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
             <a href={waLink('Hola León, quiero conversar contigo sobre una propiedad.')} target="_blank" rel="noopener" className="btn-gold">Hablar con León</a>

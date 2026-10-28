@@ -9,6 +9,7 @@ export default {
       fontFamily: {
         display: ['Anton', 'Impact', 'sans-serif'],
         sans: ['Inter', 'system-ui', 'sans-serif'],
+        script: ['Caveat', 'cursive'],
       },
       letterSpacing: { brand: '0.18em' },
     },

@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "site": "vahome-vibraalto",
+    "site": "va-home",
     "public": "out",
     "cleanUrls": true,
     "trailingSlash": true,

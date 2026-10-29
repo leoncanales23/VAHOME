@@ -11,20 +11,20 @@ const HERO_IMG = '/leon/leon-canales-2026-10.jpg';
 const line = { hidden: { y: '110%' }, show: (i: number) => ({ y: 0, transition: { duration: 0.9, delay: 0.15 + i * 0.12, ease: [0.22, 1, 0.36, 1] } }) };
 
 const stroke = { fill: 'none', stroke: 'currentColor', strokeWidth: 1.6, strokeLinecap: 'round', strokeLinejoin: 'round' } as const;
-const services = [
-  { href: '/propiedades/?op=arriendo', title: 'Arriendos', text: 'Casas, departamentos y locales.',
-    icon: <svg viewBox="0 0 32 32" width="30" height="30" aria-hidden="true" {...stroke}><circle cx="11" cy="11" r="5.5" /><path d="M15 15 L27 27 M22 22 l3 -3 M19 19 l3 -3" /></svg> },
-  { href: '/propiedades/?op=venta', title: 'Ventas', text: 'Tu próximo hogar te espera.',
-    icon: <svg viewBox="0 0 32 32" width="30" height="30" aria-hidden="true" {...stroke}><path d="M4 15 L16 5 L28 15 M7 13 V27 H25 V13 M13 27 V19 H19 V27" /></svg> },
-  { href: '/propietarios/', title: 'Propietarios', text: 'Publica y arrienda con respaldo.',
-    icon: <svg viewBox="0 0 32 32" width="30" height="30" aria-hidden="true" {...stroke}><path d="M5 12 L7 6 H25 L27 12 M5 12 V26 H27 V12 M5 12 H27 M13 26 V18 H19 V26" /></svg> },
-  { href: '/contacto/', title: 'Asesoría', text: 'Te acompaño hasta la firma.',
-    icon: <svg viewBox="0 0 32 32" width="30" height="30" aria-hidden="true" {...stroke}><path d="M5 7 H27 V21 H15 L9 27 V21 H5 Z M10 12 H22 M10 16 H18" /></svg> },
+export const services = [
+  { href: '/propiedades/?op=venta', title: 'Venta de propiedades', text: 'Tu próximo hogar te espera.',
+    icon: <svg viewBox="0 0 32 32" width="34" height="34" aria-hidden="true" {...stroke}><path d="M4 15 L16 5 L28 15 M7 13 V27 H25 V13 M13 27 V19 H19 V27 M22 6 V10" /></svg> },
+  { href: '/propiedades/?op=arriendo', title: 'Arriendos', text: 'Flexibilidad y tranquilidad.',
+    icon: <svg viewBox="0 0 32 32" width="34" height="34" aria-hidden="true" {...stroke}><circle cx="11" cy="11" r="5.5" /><path d="M15 15 L27 27 M22 22 l3 -3 M19 19 l3 -3" /></svg> },
+  { href: '/contacto/', title: 'Inversiones', text: 'Bienes raíces que generan valor.',
+    icon: <svg viewBox="0 0 32 32" width="34" height="34" aria-hidden="true" {...stroke}><path d="M5 27 H28 M8 27 V20 H12 V27 M14 27 V16 H18 V27 M20 27 V12 H24 V27 M6 15 L13 9 L18 12 L27 4 M22 4 H27 V9" /></svg> },
+  { href: '/contacto/', title: 'Asesoría personalizada', text: 'Tu interés, mi prioridad.',
+    icon: <svg viewBox="0 0 32 32" width="34" height="34" aria-hidden="true" {...stroke}><path d="M3 13 L8 8 L13 10 L17 8 L22 8 L29 14 M3 13 L9 20 M29 14 L23 21 M13 10 L10 14 Q12 16 15 13 L17 12 L23 18 Q24 20 22 21 L20 19 M22 21 Q22 23 20 23 L18 21 M20 23 Q19 25 17 24 L15 22 M17 24 Q16 26 14 25 L9 20" /></svg> },
 ];
 
 export default function Hero() {
   const reduce = useReducedMotion();
-  const lines = ['NO ES SOLO', 'UNA PROPIEDAD.', 'ES TU PRÓXIMO PASO.'];
+  const lines = ['Más que propiedades,', 'son oportunidades.'];
   const fade = (delay: number) => ({ initial: reduce ? false : { opacity: 0, y: 14 }, animate: { opacity: 1, y: 0 }, transition: { delay, duration: 0.7 } } as const);
   return (
     <section className="relative isolate overflow-hidden bg-obsidian pt-16 md:pt-20">
@@ -38,17 +38,17 @@ export default function Hero() {
 
       <div className="container-va relative -mt-24 flex flex-col justify-center pb-12 lg:mt-0 lg:min-h-[calc(100svh-5rem)] lg:py-12">
         <motion.p className="flex items-center gap-4 text-[11px] font-semibold uppercase tracking-brand text-ivory/80" {...fade(0.1)}>
-          <span className="h-px w-12 bg-gold" />{SITE.tagline}
+          <span className="h-px w-12 bg-gold" />Tu proyecto, mi compromiso
         </motion.p>
-        <h1 className="h-display mt-6 max-w-3xl text-[13vw] sm:text-7xl xl:text-8xl">
+        <h1 className="h-display mt-6 max-w-3xl text-[9.2vw] sm:text-6xl xl:text-7xl">
           {lines.map((l, i) => (
-            <span key={l} className="-mt-3 block overflow-hidden pb-1 pt-3">
-              <motion.span className={`block ${i === 2 ? 'text-gold' : ''}`} variants={line} custom={i} initial={reduce ? false : 'hidden'} animate="show">{l}</motion.span>
+            <span key={l} className="-mt-3 block overflow-hidden pb-2 pt-3">
+              <motion.span className={`block ${i === lines.length - 1 ? 'text-gold-grad' : ''}`} variants={line} custom={i} initial={reduce ? false : 'hidden'} animate="show">{l}</motion.span>
             </span>
           ))}
         </h1>
-        <motion.p className="mt-6 max-w-lg text-lg text-ivory/80" {...fade(0.7)}>
-          Casas, departamentos y locales comerciales. Te acompaño en cada paso para que encuentres el espacio que necesitas.
+        <motion.p className="mt-6 max-w-lg text-lg text-ivory/85 md:text-xl" {...fade(0.7)}>
+          Te acompaño en cada paso para que encuentres el espacio ideal, ya sea para vivir, invertir o hacer crecer tu negocio.
         </motion.p>
 
         <motion.ul className="mt-10 grid max-w-3xl grid-cols-2 gap-x-6 gap-y-6 sm:grid-cols-4 sm:gap-x-0" {...fade(0.85)}>
@@ -72,10 +72,14 @@ export default function Hero() {
 
         {/* Firma del personaje, solo en pantallas grandes para no tapar el rostro */}
         <motion.div className="pointer-events-none absolute bottom-16 right-6 hidden max-w-[17rem] lg:block xl:right-0" {...fade(1.2)}>
-          <p className="-rotate-6 font-script text-4xl leading-tight text-gold drop-shadow-[0_2px_12px_rgba(0,0,0,.6)]">{SITE.catchphrase}</p>
-          <div className="mt-8 border border-white/10 bg-obsidian/70 px-5 py-4 backdrop-blur">
-            <p className="text-[11px] font-semibold uppercase tracking-brand text-ivory/85">Cercanía<br />Claridad<br />Acompañamiento</p>
-            <span className="mt-3 block h-px w-24 bg-gold" />
+          <p className="-rotate-12 font-script text-4xl leading-tight text-gold drop-shadow-[0_2px_12px_rgba(0,0,0,.6)]">{SITE.signature}</p>
+          <svg viewBox="0 0 200 30" className="-mt-1 ml-16 w-40 -rotate-12 text-gold" aria-hidden="true"><path d="M4 26 C60 18 120 10 196 4 M70 24 C110 18 150 12 180 9" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" /></svg>
+          <div className="mt-8 flex items-center gap-5 border border-white/10 bg-obsidian/75 px-6 py-5 backdrop-blur">
+            <svg viewBox="0 0 32 32" width="34" height="34" aria-hidden="true" className="shrink-0 text-gold" {...stroke}><path d="M4 15 L16 5 L28 15 M7 13 V27 H25 V13 M13 27 V19 H19 V27" /></svg>
+            <div>
+              <p className="text-[11px] font-semibold uppercase leading-relaxed tracking-brand text-ivory/85">Experiencia<br />Confianza<br />Resultados</p>
+              <span className="mt-3 block h-px w-24 bg-gold" />
+            </div>
           </div>
         </motion.div>
       </div>

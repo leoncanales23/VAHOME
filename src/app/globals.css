@@ -5,17 +5,19 @@
 :root { color-scheme: dark; }
 html { scroll-behavior: smooth; }
 body { @apply bg-obsidian text-ivory font-sans antialiased; }
-::selection { background: #C8A96B; color: #0B0D10; }
+.font-display { font-weight: 700; }
+::selection { background: #D9B26A; color: #0B0D10; }
 
 @layer components {
   .container-va { @apply mx-auto w-full max-w-7xl px-5 md:px-10; }
   .eyebrow { @apply text-[11px] font-semibold uppercase tracking-brand text-gold; }
-  .h-display { @apply font-display uppercase leading-[0.92] tracking-tight; }
+  .h-display { @apply font-display leading-[1.02] tracking-[-0.02em]; }
+  .text-gold-grad { background: linear-gradient(100deg, #F2D08A 0%, #D9B26A 45%, #B8893F 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
   .btn-gold { @apply inline-flex items-center justify-center gap-2 rounded-full bg-gold px-7 py-4 text-sm font-semibold uppercase tracking-wider text-obsidian transition hover:bg-ivory focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-gold; }
   .btn-ghost { @apply inline-flex items-center justify-center gap-2 rounded-full border border-ivory/30 px-7 py-4 text-sm font-semibold uppercase tracking-wider text-ivory transition hover:border-gold hover:text-gold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-gold; }
   .card { @apply rounded-2xl border border-white/10 bg-charcoal; }
   .field { @apply w-full rounded-xl border border-white/15 bg-obsidian px-4 py-3 text-ivory placeholder:text-steel focus:border-gold focus:outline-none; }
-  .gold-line { background: linear-gradient(90deg, transparent, #C8A96B, transparent); height: 1px; }
+  .gold-line { background: linear-gradient(90deg, transparent, #D9B26A, transparent); height: 1px; }
 }
 
 @media (prefers-reduced-motion: reduce) {

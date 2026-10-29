@@ -43,7 +43,7 @@ export default function Catalog() {
           <option value="destacadas">Destacadas</option><option value="precio-asc">Menor precio</option><option value="precio-desc">Mayor precio</option>
         </select>
         <label className="flex items-center gap-2 px-2 text-sm text-ivory/80">
-          <input type="checkbox" checked={showDemo} onChange={(e) => setShowDemo(e.target.checked)} className="accent-[#C8A96B]" /> Mostrar demos
+          <input type="checkbox" checked={showDemo} onChange={(e) => setShowDemo(e.target.checked)} className="accent-[#D9B26A]" /> Mostrar demos
         </label>
       </div>
       <p className="mt-6 text-sm text-steel" aria-live="polite">{list.length} propiedad{list.length !== 1 ? 'es' : ''}</p>

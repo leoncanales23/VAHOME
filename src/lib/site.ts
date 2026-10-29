@@ -12,7 +12,7 @@ export const SITE = {
   representative: 'Carlos Canales Zúñiga',
   whatsapp: '56971747072',
   whatsappDisplay: '+56 9 7174 7072',
-  email: 'contacto@vibraalto.cl',
+  email: 'leon_canales@vibraalto.cl',
 };
 
 export const clp = (n: number) =>

@@ -15,7 +15,7 @@ const EVENTOS: Record<string, string> = {
   qr: 'Escaneos de QR (/hola/)', whatsapp: 'Clics en WhatsApp', llamada: 'Clics en llamar',
   formulario_visita: 'Solicitudes de visita', formulario_propietario: 'Captaciones de propietarios', contacto_guardado: 'Contactos guardados',
 };
-const RUBROS: Record<string, string> = { cafe: 'Café para llevar', joyeria: 'Joyería', barberia: 'Barbería', jugueteria: 'Juguetería', defensa: 'Defensa personal' };
+const RUBROS: Record<string, string> = { cafe: 'Café para llevar', joyeria: 'Joyería', barberia: 'Barbería', jugueteria: 'Juguetería', floreria: 'Florería', celulares: 'Celulares y servicio técnico', cajeros: 'Cajeros automáticos', defensa: 'Defensa personal' };
 const workerUrl = (process.env.NEXT_PUBLIC_WORKER_URL ?? '').replace(/\/$/, '');
 const clean = <T,>(o: T): T => JSON.parse(JSON.stringify(o));
 const fmtDate = (d?: Date) => (d ? d.toLocaleString('es-CL', { dateStyle: 'short', timeStyle: 'short' }) : '—');

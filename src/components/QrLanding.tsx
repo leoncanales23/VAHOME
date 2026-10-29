@@ -4,6 +4,7 @@
 import Link from 'next/link';
 import { motion, useReducedMotion } from 'framer-motion';
 import Reveal from './Reveal';
+import PropertyVideo from './PropertyVideo';
 import { services } from './Hero';
 import { SITE, clp, propertyWa, waLink } from '@/lib/site';
 import { areaOf, fmtM, typeLabel, type Property } from '@/data/properties';
@@ -73,11 +74,15 @@ export default function QrLanding({ property }: { property?: Property }) {
       {property && (
         <section className="border-y border-white/10 bg-charcoal">
           <div className="container-va grid gap-8 py-16 lg:grid-cols-2 lg:items-center">
-            <Reveal>
-              <div className="relative aspect-[4/3] overflow-hidden rounded-2xl">
-                <img src={property.images[0]} alt={property.title} className="h-full w-full object-cover" />
-                <span className="absolute left-4 top-4 rounded-full bg-gold px-4 py-1.5 text-[11px] font-bold uppercase tracking-wider text-obsidian">{property.availability === 'disponible' ? 'Disponible' : property.availability}</span>
-              </div>
+            <Reveal className="relative">
+              {property.video ? (
+                <PropertyVideo video={property.video} title={property.title} />
+              ) : (
+                <div className="aspect-[4/3] overflow-hidden rounded-2xl">
+                  <img src={property.images[0]} alt={property.title} className="h-full w-full object-cover" />
+                </div>
+              )}
+              <span className="absolute left-4 top-4 rounded-full bg-gold px-4 py-1.5 text-[11px] font-bold uppercase tracking-wider text-obsidian lg:left-[calc(50%-10rem)]">{property.availability === 'disponible' ? 'Disponible' : property.availability}</span>
             </Reveal>
             <Reveal delay={0.1}>
               <p className="eyebrow">{typeLabel[property.type]} en {property.operation} · {property.commune} · {property.ref}</p>
@@ -100,10 +105,22 @@ export default function QrLanding({ property }: { property?: Property }) {
               )}
               <div className="mt-8 grid gap-3 sm:flex">
                 <a href={wa} target="_blank" rel="noopener" className="btn-gold">{waIcon}Coordinar visita</a>
-                <Link href={`/propiedades/${property.slug}/`} className="btn-ghost">Ver fotos y ficha completa</Link>
+                <Link href={`/propiedades/${property.slug}/`} className="btn-ghost">Ver ficha completa</Link>
               </div>
             </Reveal>
           </div>
+          {property.images.length > 1 && (
+            <div className="container-va pb-16">
+              <p className="eyebrow">Fotos del local · desliza</p>
+              <ul className="-mx-5 mt-4 flex snap-x snap-mandatory gap-3 overflow-x-auto px-5 pb-3 md:mx-0 md:px-0">
+                {property.images.map((src, i) => (
+                  <li key={src} className="w-[80%] shrink-0 snap-start sm:w-[45%] lg:w-[31%]">
+                    <img src={src} alt={`${property.title} — foto ${i + 1}`} loading="lazy" className="aspect-[4/3] w-full rounded-2xl object-cover" />
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
         </section>
       )}
 

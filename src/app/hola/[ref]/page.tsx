@@ -15,7 +15,7 @@ export function generateMetadata({ params }: { params: { ref: string } }): Metad
   return {
     title: `${p.title} · ${SITE.advisor}`,
     description: `${p.headline}. ${clp(p.price)}${p.operation === 'arriendo' ? '/mes' : ''}. Coordina tu visita con ${SITE.advisor}.`,
-    openGraph: { images: [p.images[0] ?? '/leon/leon-canales-costanera-v8.jpg'] },
+    openGraph: { images: [p.images[0] ?? '/leon/leon-canales-costanera-v9.jpg'] },
   };
 }
 

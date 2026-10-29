@@ -89,7 +89,7 @@ export const seedProperties: Property[] = [
       stream: 'fa60fc98596e90bbf49ccc7a73881008',
       poster: '/propiedades/local-170-galeria-los-joyeros/recorrido-local170-poster.jpg',
     },
-    uses: Object.fromEntries(['cafe', 'joyeria', 'barberia', 'jugueteria', 'defensa'].map(
+    uses: Object.fromEntries(['cafe', 'joyeria', 'barberia', 'jugueteria', 'floreria', 'celulares', 'cajeros', 'defensa'].map(
       (r) => [r, `/propiedades/local-170-galeria-los-joyeros/rubros/${r}-v1.webp`],
     )),
     mapQuery: '21 de Mayo 583, Santiago, Chile',

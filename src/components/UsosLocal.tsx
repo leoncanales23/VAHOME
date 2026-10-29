@@ -13,6 +13,9 @@ const RUBROS: Rubro[] = [
   { id: 'joyeria', title: 'Joyería', text: 'Vitrinas iluminadas en la esquina, en la misma galería de joyerías. El flujo de público ya es el correcto.' },
   { id: 'barberia', title: 'Barbería', text: 'Uno o dos sillones, espejo y lavapelo; la vitrina en esquina hace de letrero.' },
   { id: 'jugueteria', title: 'Juguetería', text: 'Estanterías a la vista desde el pasillo y un mostrador pequeño junto a la entrada.' },
+  { id: 'floreria', title: 'Florería', text: 'Flores frescas a la vista desde el pasillo y un mesón para armar ramos; la esquina se convierte en vitrina de color.' },
+  { id: 'celulares', title: 'Accesorios y servicio técnico de celulares', text: 'Muro de carcasas, cargadores y audífonos, más un mesón de reparación y soporte tecnológico a la vista del cliente.' },
+  { id: 'cajeros', title: 'Zona de cajeros automáticos', text: 'Espacio para que un banco instale cajeros en un punto de alto flujo peatonal. La imagen usa un banco ficticio («Banco X»).' },
   { id: 'defensa', title: 'Defensa personal', text: 'Exhibidor de pared y mostrador cerrado. La venta de cada producto queda sujeta a la normativa vigente y sus permisos.' },
 ];
 

@@ -3,10 +3,10 @@ import Link from 'next/link';
 import { motion, useReducedMotion } from 'framer-motion';
 import { SITE, waLink } from '@/lib/site';
 
-// Foto de portada: public/leon/leon-canales-2026-10.jpg. Para una foto horizontal con fondo propio
+// Foto de portada: public/leon/leon-canales-2026-10-skyline.jpg. Para una foto horizontal con fondo propio
 // (ciudad, cordillera, propiedad) basta subir el archivo con un nombre nuevo y cambiar esta ruta.
 // El nombre lleva fecha: las imágenes se cachean un año (immutable), así que una foto nueva necesita un nombre nuevo.
-const HERO_IMG = '/leon/leon-canales-2026-10.jpg';
+const HERO_IMG = '/leon/leon-canales-2026-10-skyline.jpg';
 
 const line = { hidden: { y: '110%' }, show: (i: number) => ({ y: 0, transition: { duration: 0.9, delay: 0.15 + i * 0.12, ease: [0.22, 1, 0.36, 1] } }) };
 
@@ -29,10 +29,12 @@ export default function Hero() {
   return (
     <section className="relative isolate overflow-hidden bg-obsidian pt-16 md:pt-20">
       {/* Foto: arriba en móvil; a la derecha y fundida con el fondo en escritorio (sin recortar el rostro) */}
-      <div aria-hidden className="relative h-[58svh] w-full lg:absolute lg:bottom-0 lg:right-0 lg:top-20 lg:h-auto lg:w-[66%]">
+      <div aria-hidden className="relative h-[58svh] w-full lg:absolute lg:bottom-0 lg:right-0 lg:top-20 lg:h-auto lg:w-[54%]">
+        {/* En escritorio se recorta la parte baja (manos) para agrandar cara y skyline, anclado a la derecha donde está la torre */}
         <motion.img src={HERO_IMG} alt="" initial={reduce ? false : { scale: 1.04, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ duration: 1.4, ease: [0.22, 1, 0.36, 1] }}
-          className="h-full w-full object-cover object-[50%_12%] lg:ml-auto lg:block lg:w-auto"
-          style={{ WebkitMaskImage: 'linear-gradient(to right, transparent 0%, #000 40%)', maskImage: 'linear-gradient(to right, transparent 0%, #000 40%)' }} />
+          className="h-full w-full object-cover object-[50%_12%] lg:object-[100%_10%]"
+          // El zoom de entrada se cierra hacia el skyline (Costanera, borde derecho) para llevar la mirada de la cara a la torre
+          style={{ transformOrigin: '92% 42%', WebkitMaskImage: 'linear-gradient(to right, transparent 0%, #000 40%)', maskImage: 'linear-gradient(to right, transparent 0%, #000 40%)' }} />
         <div className="absolute inset-0 bg-gradient-to-t from-obsidian via-obsidian/20 to-transparent lg:via-transparent" />
       </div>
 
@@ -71,7 +73,7 @@ export default function Hero() {
         <p className="mt-12 flex items-center gap-4 text-[11px] uppercase tracking-brand text-ivory/60">Santiago · Chile<span className="hidden h-px w-40 bg-white/20 sm:block" /></p>
 
         {/* Firma del personaje, solo en pantallas grandes para no tapar el rostro */}
-        <motion.div className="pointer-events-none absolute bottom-16 right-6 hidden max-w-[17rem] lg:block xl:right-0" {...fade(1.2)}>
+        <motion.div className="pointer-events-none absolute bottom-16 right-6 hidden max-w-[17rem] xl:right-0 xl:block" {...fade(1.2)}>
           <p className="-rotate-12 font-script text-4xl leading-tight text-gold drop-shadow-[0_2px_12px_rgba(0,0,0,.6)]">{SITE.signature}</p>
           <svg viewBox="0 0 200 30" className="-mt-1 ml-16 w-40 -rotate-12 text-gold" aria-hidden="true"><path d="M4 26 C60 18 120 10 196 4 M70 24 C110 18 150 12 180 9" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" /></svg>
           <div className="mt-8 flex items-center gap-5 border border-white/10 bg-obsidian/75 px-6 py-5 backdrop-blur">

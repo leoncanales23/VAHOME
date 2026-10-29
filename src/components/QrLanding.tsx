@@ -9,7 +9,7 @@ import { services } from './Hero';
 import { SITE, clp, propertyWa, waLink } from '@/lib/site';
 import { areaOf, fmtM, typeLabel, type Property } from '@/data/properties';
 
-const PHOTO = '/leon/leon-canales-2026-10.jpg';
+const PHOTO = '/leon/leon-canales-2026-10-skyline.jpg';
 
 const waIcon = (
   <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm5.3 14.1c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .2-3.3-.7-2.8-1.1-4.6-4-4.7-4.2-.1-.2-1.1-1.5-1.1-2.9s.7-2.1 1-2.4c.3-.3.6-.3.8-.3h.6c.2 0 .4 0 .6.5l.8 2c.1.2.1.4 0 .5l-.4.6-.4.4c-.1.1-.3.3-.1.6.2.3.7 1.2 1.6 2 1.1 1 2 1.3 2.3 1.4.3.1.5.1.6-.1l.9-1c.2-.3.4-.2.6-.1l2 .9c.3.1.5.2.5.3.1.2.1.7-.1 1.3Z" /></svg>
@@ -49,7 +49,7 @@ export default function QrLanding({ property }: { property?: Property }) {
       {/* 1 · León al frente: lo primero que se ve al escanear */}
       <section className="relative isolate flex min-h-[100svh] items-end overflow-hidden bg-obsidian">
         <motion.img src={PHOTO} alt={`${SITE.advisor}, ${SITE.role.toLowerCase()}`} initial={reduce ? false : { scale: 1.08 }} animate={{ scale: 1 }} transition={{ duration: 2.2, ease: [0.22, 1, 0.36, 1] }}
-          className="absolute inset-0 -z-10 h-full w-full object-cover object-[50%_8%] md:left-auto md:right-0 md:w-[55%] md:[mask-image:linear-gradient(to_right,transparent_0%,#000_30%)]" />
+          className="absolute inset-0 -z-10 h-full w-full object-cover object-[86%_8%] md:left-auto md:object-[50%_8%] md:right-0 md:w-[55%] md:[mask-image:linear-gradient(to_right,transparent_0%,#000_30%)]" />
         <div className="absolute inset-0 -z-10 bg-gradient-to-t from-obsidian via-obsidian/55 to-transparent md:bg-gradient-to-r md:from-obsidian md:via-obsidian/70" />
 
         <div className="container-va pb-10 pt-28 md:pb-24">

@@ -123,7 +123,12 @@ export const seedProperties: Property[] = [
 
 // En el build, scripts/fetch-inventory.mjs escribe aquí las propiedades publicadas en Firestore.
 const published = inventory as unknown as Property[];
-export const properties: Property[] = published.length ? published : seedProperties;
+// Las simulaciones por rubro que aún no estén en el registro de Firestore se completan desde el semilla.
+const withSeedUses = (p: Property): Property => {
+  const seed = seedProperties.find((x) => x.slug === p.slug)?.uses;
+  return seed ? { ...p, uses: { ...seed, ...p.uses } } : p;
+};
+export const properties: Property[] = published.length ? published.map(withSeedUses) : seedProperties;
 
 export const typeLabel: Record<PropertyType, string> = {
   casa: 'Casa', departamento: 'Departamento', local: 'Local comercial', oficina: 'Oficina', terreno: 'Terreno',

@@ -55,7 +55,7 @@ function notify(kind: 'visita' | 'propietario', id: string, data: object) {
   }).catch(() => {});
 }
 
-export type EventType = 'whatsapp' | 'llamada' | 'qr' | 'formulario_visita' | 'formulario_propietario' | 'contacto_guardado';
+export type EventType = 'whatsapp' | 'llamada' | 'qr' | 'formulario_visita' | 'formulario_propietario' | 'contacto_guardado' | 'rubro';
 
 // Evento de medición anónimo (sin datos personales) por la API REST, sin cargar el SDK.
 export function logEvent(type: EventType, ref = '') {

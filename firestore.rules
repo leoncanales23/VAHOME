@@ -71,7 +71,7 @@ service cloud.firestore {
       allow read: if isAdmin();
       allow update, delete: if false;
       allow create: if request.resource.data.keys().hasOnly(['type', 'path', 'ref', 'ts'])
-        && request.resource.data.type in ['whatsapp', 'llamada', 'qr', 'formulario_visita', 'formulario_propietario', 'contacto_guardado']
+        && request.resource.data.type in ['whatsapp', 'llamada', 'qr', 'formulario_visita', 'formulario_propietario', 'contacto_guardado', 'rubro']
         && str(request.resource.data.path, 200) && str(request.resource.data.ref, 20)
         && request.resource.data.ts is timestamp
         && request.resource.data.ts > request.time - duration.value(10, 'm')

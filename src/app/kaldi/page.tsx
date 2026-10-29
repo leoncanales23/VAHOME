@@ -1,7 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import Reveal from '@/components/Reveal';
-import { RubroDrawing } from '@/components/UsosLocal';
 import { SITE, waLink } from '@/lib/site';
 
 export const metadata: Metadata = {
@@ -55,8 +54,8 @@ export default function Page() {
           </div>
           <Reveal>
             <figure className="overflow-hidden rounded-[28px] border border-gold/30">
-              <RubroDrawing id="cafe" />
-              <figcaption className="bg-obsidian/60 px-5 py-3 text-xs text-ivory/60">Esquema referencial de un local de café para llevar.</figcaption>
+              <img src="/propiedades/local-170-galeria-los-joyeros/rubros/cafe-v1.webp" alt="Simulación del Local 170 de la Galería Los Joyeros como café Kaldi" width={1024} height={768} className="aspect-[4/3] w-full object-cover" />
+              <figcaption className="bg-obsidian/60 px-5 py-3 text-xs text-ivory/60">Simulación con IA del Local 170 (Galería Los Joyeros, disponible) convertido en café para llevar. No representa su estado actual.</figcaption>
             </figure>
           </Reveal>
         </div>

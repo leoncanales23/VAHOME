@@ -1,7 +1,10 @@
 import Link from 'next/link';
+import type { Property } from '@/data/properties';
+import { propertyWa } from '@/lib/site';
 
 // «¿Qué puede ser este local?»: el mismo espacio imaginado para distintos rubros.
-// Las ilustraciones son esquemas referenciales (no fotos ni renders del local real).
+// Con `property.uses` se muestran simulaciones con IA del local real (siempre rotuladas); si no, esquemas SVG.
+// Cada «Me interesa» abre WhatsApp con el rubro y lleva data-rubro para medir qué negocios busca la gente.
 
 type Rubro = { id: string; title: string; text: string; href?: string; cta?: string };
 
@@ -49,24 +52,40 @@ export function RubroDrawing({ id }: { id: string }) {
   }
 }
 
-export default function UsosLocal({ title = '¿Qué puede ser este local?' }: { title?: string }) {
+export default function UsosLocal({ title = '¿Qué puede ser este local?', property }: { title?: string; property: Pick<Property, 'ref' | 'title' | 'slug' | 'uses'> }) {
+  const sims = property.uses ?? {};
+  const hasSims = Object.keys(sims).length > 0;
   return (
     <section className="mt-10">
       <h2 className="font-display text-3xl uppercase">{title}</h2>
-      <p className="mt-2 text-sm text-ivory/70">El mismo espacio, distintos negocios. Esquemas referenciales para imaginar el local; cada rubro requiere sus propios permisos municipales.</p>
+      <p className="mt-2 text-sm text-ivory/70">
+        El mismo espacio, distintos negocios. {hasSims ? 'Simulaciones generadas con IA a partir de una foto real del local: muestran una posibilidad, no el estado actual.' : 'Esquemas referenciales para imaginar el local.'} Cada rubro requiere sus propios permisos municipales.
+      </p>
       <ul className="mt-6 grid gap-4 sm:grid-cols-2">
-        {RUBROS.map((r) => (
-          <li key={r.id} className={`card overflow-hidden ${r.href ? 'border-gold/50 sm:col-span-2' : ''}`}>
-            <div className={r.href ? 'grid sm:grid-cols-2' : ''}>
-              <RubroDrawing id={r.id} />
-              <div className="p-5">
-                <p className="font-display text-xl">{r.title}</p>
-                <p className="mt-2 text-sm text-ivory/75">{r.text}</p>
-                {r.href && <Link href={r.href} className="btn-gold mt-5">{r.cta} →</Link>}
+        {RUBROS.map((r) => {
+          const img = sims[r.id];
+          const wa = propertyWa(property.ref, property.title, property.slug, `me interesa para ${r.title.toLowerCase()}`);
+          return (
+            <li key={r.id} className={`card overflow-hidden ${r.href ? 'border-gold/50 sm:col-span-2' : ''}`}>
+              <div className={r.href ? 'grid sm:grid-cols-2' : ''}>
+                {img ? (
+                  <figure className="relative">
+                    <img src={img} alt={`Simulación del ${property.title} como ${r.title.toLowerCase()}`} loading="lazy" width={1024} height={768} className="aspect-[4/3] h-full w-full object-cover" />
+                    <figcaption className="absolute left-3 top-3 rounded-full bg-obsidian/85 px-3 py-1 text-[10px] font-semibold uppercase tracking-wider text-ivory">Simulación con IA</figcaption>
+                  </figure>
+                ) : <RubroDrawing id={r.id} />}
+                <div className="p-5">
+                  <p className="font-display text-xl">{r.title}</p>
+                  <p className="mt-2 text-sm text-ivory/75">{r.text}</p>
+                  <div className="mt-5 flex flex-wrap gap-3">
+                    {r.href && <Link href={r.href} className="btn-gold">{r.cta} →</Link>}
+                    <a href={wa} target="_blank" rel="noopener" data-rubro={r.id} className={r.href ? 'btn-ghost' : 'text-sm font-semibold text-gold underline-offset-4 hover:underline'}>Me interesa para {r.id === 'cafe' ? 'café' : r.title.toLowerCase()} →</a>
+                  </div>
+                </div>
               </div>
-            </div>
-          </li>
-        ))}
+            </li>
+          );
+        })}
       </ul>
     </section>
   );

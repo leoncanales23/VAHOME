@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import Gallery from './Gallery';
+import PropertyVideo from '@/components/PropertyVideo';
 import SaveButtons from '@/components/SaveButtons';
 import VisitForm from '@/components/VisitForm';
 import PropertyCard from '@/components/PropertyCard';
@@ -39,6 +40,12 @@ export default function Page({ params }: { params: { slug: string } }) {
       <div className="mt-6 grid gap-10 lg:grid-cols-[1.4fr_1fr]">
         <div>
           <Gallery images={p.images} title={p.title} />
+          {p.video && (
+            <section className="mt-10">
+              <h2 className="font-display text-3xl uppercase">Recorrido en video</h2>
+              <PropertyVideo video={p.video} title={p.title} className="mt-5 md:mx-0" />
+            </section>
+          )}
           <section className="mt-10">
             <p className="eyebrow">{typeLabel[p.type]} en {p.operation} · {p.commune}</p>
             <h1 className="h-display mt-3 text-5xl md:text-6xl">{p.title}</h1>

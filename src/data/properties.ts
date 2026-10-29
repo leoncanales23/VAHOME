@@ -30,6 +30,7 @@ export interface Property {
   conditions: string[];
   description: string;
   images: string[];
+  video?: { src: string; poster: string };   // recorrido vertical (9:16)
   mapQuery?: string;
 }
 
@@ -73,9 +74,13 @@ export const properties: Property[] = [
     ],
     description:
       'Local comercial en el entrepiso de la Galería Los Joyeros, en pleno centro histórico de Santiago. Vitrina en esquina con doble frente, iluminación LED y tablero eléctrico propio. Cuenta con baño privado para el personal. El espacio se entrega para habilitar según el rubro del arrendatario.',
-    images: ['01', '02', '03', '04', '05', '06', '07', '08'].map(
-      (n) => `/propiedades/local-170-galeria-los-joyeros/${n}.jpg`,
+    images: ['01', '02', '03', '04', '05', '06', '07'].map(
+      (n) => `/propiedades/local-170-galeria-los-joyeros/local170-${n}.jpg`,
     ),
+    video: {
+      src: '/propiedades/local-170-galeria-los-joyeros/recorrido-local170.mp4',
+      poster: '/propiedades/local-170-galeria-los-joyeros/recorrido-local170-poster.jpg',
+    },
     mapQuery: '21 de Mayo 583, Santiago, Chile',
   },
   // ---- DEMOS (no publicar como reales) ----

@@ -1,4 +1,6 @@
+'use client';
 import Link from 'next/link';
+import { useEffect, useRef, useState } from 'react';
 import type { Property } from '@/data/properties';
 import { propertyWa } from '@/lib/site';
 
@@ -55,41 +57,81 @@ export function RubroDrawing({ id }: { id: string }) {
   }
 }
 
+// Carrusel: una simulación grande con su texto y botones; debajo, miniaturas difuminadas de los otros rubros
+// que se aclaran al pasar el cursor o al elegirlas. Flechas, teclado y deslizar con el dedo.
 export default function UsosLocal({ title = '¿Qué puede ser este local?', property }: { title?: string; property: Pick<Property, 'ref' | 'title' | 'slug' | 'uses'> }) {
   const sims = property.uses ?? {};
   const hasSims = Object.keys(sims).length > 0;
+  const [i, setI] = useState(0);
+  const touch = useRef<number | null>(null);
+  const strip = useRef<HTMLDivElement>(null);
+  const n = RUBROS.length;
+  const go = (k: number) => setI(((k % n) + n) % n);
+  const r = RUBROS[i];
+  const img = sims[r.id];
+  const label = r.id === 'cafe' ? 'café' : r.title.toLowerCase();
+  const wa = propertyWa(property.ref, property.title, property.slug, `me interesa para ${r.title.toLowerCase()}`);
+
+  // Mantiene la miniatura activa a la vista dentro de la tira.
+  // Solo desplaza la tira en horizontal (scrollIntoView movería también la página).
+  useEffect(() => {
+    const box = strip.current, el = box?.querySelector<HTMLElement>(`[data-i="${i}"]`);
+    if (box && el) box.scrollTo({ left: el.offsetLeft - (box.clientWidth - el.clientWidth) / 2, behavior: 'smooth' });
+  }, [i]);
+
   return (
-    <section className="mt-10">
-      <h2 className="font-display text-3xl uppercase">{title}</h2>
+    <section className="mt-10 min-w-0" aria-roledescription="carrusel" aria-label={title}>
+      <div className="flex items-end justify-between gap-4">
+        <h2 className="font-display text-3xl uppercase">{title}</h2>
+        <p className="shrink-0 text-sm text-ivory/60" aria-live="polite">{i + 1} / {n}</p>
+      </div>
       <p className="mt-2 text-sm text-ivory/70">
         El mismo espacio, distintos negocios. {hasSims ? 'Simulaciones generadas con IA a partir de una foto real del local: muestran una posibilidad, no el estado actual.' : 'Esquemas referenciales para imaginar el local.'} Cada rubro requiere sus propios permisos municipales.
       </p>
-      <ul className="mt-6 grid gap-4 sm:grid-cols-2">
-        {RUBROS.map((r) => {
-          const img = sims[r.id];
-          const wa = propertyWa(property.ref, property.title, property.slug, `me interesa para ${r.title.toLowerCase()}`);
+
+      <div
+        className="group relative mt-6 overflow-hidden rounded-2xl border border-gold/40 bg-obsidian outline-none focus-visible:ring-2 focus-visible:ring-gold"
+        tabIndex={0}
+        onKeyDown={(e) => { if (e.key === 'ArrowRight') go(i + 1); if (e.key === 'ArrowLeft') go(i - 1); }}
+        onTouchStart={(e) => { touch.current = e.touches[0].clientX; }}
+        onTouchEnd={(e) => { if (touch.current === null) return; const dx = e.changedTouches[0].clientX - touch.current; if (Math.abs(dx) > 40) go(i + (dx < 0 ? 1 : -1)); touch.current = null; }}
+      >
+        <div className="relative">
+          <div key={r.id} className="animate-[fadeIn_.5s_ease]">
+            {img ? <img src={img} alt={`Simulación del ${property.title} como ${label}`} width={1024} height={768} className="aspect-[4/3] w-full object-cover sm:aspect-[16/10]" />
+              : <div className="aspect-[4/3] sm:aspect-[16/10]"><RubroDrawing id={r.id} /></div>}
+          </div>
+          {img && <span className="absolute left-4 top-4 rounded-full bg-obsidian/85 px-3 py-1 text-[10px] font-semibold uppercase tracking-wider text-ivory">Simulación con IA</span>}
+          <button type="button" onClick={() => go(i - 1)} aria-label="Rubro anterior" className="absolute left-3 top-1/2 grid h-11 w-11 -translate-y-1/2 place-items-center rounded-full border border-white/20 bg-obsidian/70 text-xl text-ivory backdrop-blur transition hover:border-gold hover:text-gold sm:top-[38%]">‹</button>
+          <button type="button" onClick={() => go(i + 1)} aria-label="Rubro siguiente" className="absolute right-3 top-1/2 grid h-11 w-11 -translate-y-1/2 place-items-center rounded-full border border-white/20 bg-obsidian/70 text-xl text-ivory backdrop-blur transition hover:border-gold hover:text-gold sm:top-[38%]">›</button>
+        </div>
+        {/* En celular el texto va bajo la foto; desde sm se superpone con degradado */}
+        <div className="px-5 pb-5 pt-4 sm:absolute sm:inset-x-0 sm:bottom-0 sm:bg-gradient-to-t sm:from-obsidian sm:via-obsidian/85 sm:to-transparent sm:px-7 sm:pt-20">
+          <p className="font-display text-2xl sm:text-3xl">{r.title}</p>
+          <p className="mt-1 max-w-xl text-sm text-ivory/80">{r.text}</p>
+          <div className="mt-4 flex flex-wrap gap-3">
+            {r.href && <Link href={r.href} className="btn-gold py-3">{r.cta} →</Link>}
+            <a href={wa} target="_blank" rel="noopener" data-rubro={r.id} className={r.href ? 'btn-ghost py-3' : 'btn-gold py-3'}>Me interesa para {label} →</a>
+          </div>
+        </div>
+      </div>
+
+      <p className="mt-5 text-xs uppercase tracking-brand text-gold">¿Y si fuera…? Elige otro rubro</p>
+      <div ref={strip} className="-mx-1 mt-3 flex snap-x gap-3 overflow-x-auto px-1 pb-2" role="tablist" aria-label="Otros rubros">
+        {RUBROS.map((x, k) => {
+          const t = sims[x.id], on = k === i;
           return (
-            <li key={r.id} className={`card overflow-hidden ${r.href ? 'border-gold/50 sm:col-span-2' : ''}`}>
-              <div className={r.href ? 'grid sm:grid-cols-2' : ''}>
-                {img ? (
-                  <figure className="relative">
-                    <img src={img} alt={`Simulación del ${property.title} como ${r.title.toLowerCase()}`} loading="lazy" width={1024} height={768} className="aspect-[4/3] h-full w-full object-cover" />
-                    <figcaption className="absolute left-3 top-3 rounded-full bg-obsidian/85 px-3 py-1 text-[10px] font-semibold uppercase tracking-wider text-ivory">Simulación con IA</figcaption>
-                  </figure>
-                ) : <RubroDrawing id={r.id} />}
-                <div className="p-5">
-                  <p className="font-display text-xl">{r.title}</p>
-                  <p className="mt-2 text-sm text-ivory/75">{r.text}</p>
-                  <div className="mt-5 flex flex-wrap gap-3">
-                    {r.href && <Link href={r.href} className="btn-gold">{r.cta} →</Link>}
-                    <a href={wa} target="_blank" rel="noopener" data-rubro={r.id} className={r.href ? 'btn-ghost' : 'text-sm font-semibold text-gold underline-offset-4 hover:underline'}>Me interesa para {r.id === 'cafe' ? 'café' : r.title.toLowerCase()} →</a>
-                  </div>
-                </div>
-              </div>
-            </li>
+            <button key={x.id} type="button" data-i={k} role="tab" aria-selected={on} onClick={() => go(k)}
+              className={`group/t relative aspect-square w-28 shrink-0 snap-start overflow-hidden rounded-xl border-2 transition sm:w-32 ${on ? 'border-gold' : 'border-transparent'}`}>
+              {t ? <img src={t} alt="" loading="lazy" className={`h-full w-full scale-110 object-cover transition duration-500 ${on ? 'blur-0' : 'blur-[3px] brightness-50 group-hover/t:blur-0 group-hover/t:brightness-90'}`} />
+                : <span className={`block h-full w-full ${on ? '' : 'opacity-40'}`}><RubroDrawing id={x.id} /></span>}
+              <span className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-obsidian to-transparent px-2 pb-2 pt-6 text-left text-[11px] font-semibold leading-tight text-ivory">{x.title}</span>
+            </button>
           );
         })}
-      </ul>
+      </div>
+      {/* Precarga la siguiente imagen para que el cambio sea instantáneo */}
+      {sims[RUBROS[(i + 1) % n].id] && <link rel="preload" as="image" href={sims[RUBROS[(i + 1) % n].id]} />}
     </section>
   );
 }

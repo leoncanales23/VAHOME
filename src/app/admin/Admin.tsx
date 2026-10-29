@@ -15,6 +15,7 @@ const EVENTOS: Record<string, string> = {
   qr: 'Escaneos de QR (/hola/)', whatsapp: 'Clics en WhatsApp', llamada: 'Clics en llamar',
   formulario_visita: 'Solicitudes de visita', formulario_propietario: 'Captaciones de propietarios', contacto_guardado: 'Contactos guardados',
 };
+const RUBROS: Record<string, string> = { cafe: 'Café para llevar', joyeria: 'Joyería', barberia: 'Barbería', jugueteria: 'Juguetería', defensa: 'Defensa personal' };
 const workerUrl = (process.env.NEXT_PUBLIC_WORKER_URL ?? '').replace(/\/$/, '');
 const clean = <T,>(o: T): T => JSON.parse(JSON.stringify(o));
 const fmtDate = (d?: Date) => (d ? d.toLocaleString('es-CL', { dateStyle: 'short', timeStyle: 'short' }) : '—');
@@ -153,6 +154,7 @@ function Leads({ email }: { email: string }) {
 function Metrics() {
   const [days, setDays] = useState(30);
   const [counts, setCounts] = useState<Record<string, number> | null>(null);
+  const [rubros, setRubros] = useState<Record<string, number>>({});
   const [err, setErr] = useState('');
   useEffect(() => {
     (async () => {
@@ -165,6 +167,11 @@ function Metrics() {
           return [t, snap.data().count] as const;
         }));
         setCounts(Object.fromEntries(entries));
+        const rub = await Promise.all(Object.keys(RUBROS).map(async (r) => {
+          const snap = await fs.getCountFromServer(fs.query(fs.collection(db, 'events'), fs.where('type', '==', 'rubro'), fs.where('ref', '==', r), fs.where('ts', '>=', since)));
+          return [r, snap.data().count] as const;
+        }));
+        setRubros(Object.fromEntries(rub));
       } catch (e) { setErr((e as Error).message); }
     })();
   }, [days]);
@@ -183,6 +190,24 @@ function Metrics() {
             <div key={k} className="card p-5"><dt className="text-[11px] uppercase tracking-wider text-ivory/60">{label}</dt><dd className="mt-2 font-display text-4xl text-gold">{counts[k] ?? 0}</dd></div>
           ))}
         </dl>
+      )}
+      {counts && (
+        <div className="mt-10">
+          <p className="eyebrow">Qué negocio buscan para los locales</p>
+          <p className="mt-1 text-sm text-steel">Clics en «Me interesa para …» por rubro, en el mismo período.</p>
+          <ul className="mt-4 grid gap-2">
+            {Object.entries(RUBROS).sort((a, b) => (rubros[b[0]] ?? 0) - (rubros[a[0]] ?? 0)).map(([k, label]) => {
+              const max = Math.max(1, ...Object.values(rubros));
+              return (
+                <li key={k} className="grid grid-cols-[10rem_1fr_3rem] items-center gap-3 text-sm">
+                  <span>{label}</span>
+                  <span className="h-2 rounded-full bg-white/10"><span className="block h-2 rounded-full bg-gold" style={{ width: `${((rubros[k] ?? 0) / max) * 100}%` }} /></span>
+                  <span className="text-right font-semibold">{rubros[k] ?? 0}</span>
+                </li>
+              );
+            })}
+          </ul>
+        </div>
       )}
     </div>
   );

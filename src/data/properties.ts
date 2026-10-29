@@ -30,7 +30,8 @@ export interface Property {
   conditions: string[];
   description: string;
   images: string[];
-  video?: { src: string; poster: string };   // recorrido vertical (9:16)
+  video?: { stream?: string; src?: string; poster: string };   // recorrido vertical (9:16): UID de Cloudflare Stream o archivo
+  uses?: Partial<Record<string, string>>;   // simulaciones con IA del local por rubro (id de rubro → imagen)
   mapQuery?: string;
 }
 
@@ -78,9 +79,12 @@ export const properties: Property[] = [
       (n) => `/propiedades/local-170-galeria-los-joyeros/local170-${n}.jpg`,
     ),
     video: {
-      src: '/propiedades/local-170-galeria-los-joyeros/recorrido-local170.mp4',
+      stream: 'fa60fc98596e90bbf49ccc7a73881008',
       poster: '/propiedades/local-170-galeria-los-joyeros/recorrido-local170-poster.jpg',
     },
+    uses: Object.fromEntries(['cafe', 'joyeria', 'barberia', 'jugueteria', 'defensa'].map(
+      (r) => [r, `/propiedades/local-170-galeria-los-joyeros/rubros/${r}-v1.webp`],
+    )),
     mapQuery: '21 de Mayo 583, Santiago, Chile',
   },
   // ---- DEMOS (no publicar como reales) ----

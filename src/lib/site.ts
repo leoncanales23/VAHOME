@@ -15,6 +15,9 @@ export const SITE = {
   email: 'leon_canales@vibraalto.cl',
 };
 
+// Subdominio de Cloudflare Stream de la cuenta (videos de propiedades).
+export const STREAM_HOST = 'https://customer-1ahh13fpt0d0y4lx.cloudflarestream.com';
+
 export const clp = (n: number) =>
   new Intl.NumberFormat('es-CL', { style: 'currency', currency: 'CLP', maximumFractionDigits: 0 }).format(n);
 

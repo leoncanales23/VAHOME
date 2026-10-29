@@ -78,7 +78,7 @@ export default function Page({ params }: { params: { slug: string } }) {
               {p.features.map((f) => <li key={f} className="card flex items-center gap-3 px-4 py-3 text-sm"><span className="text-gold">◆</span>{f}</li>)}
             </ul>
           </section>
-          {p.type === 'local' && p.verified && <UsosLocal />}
+          {p.type === 'local' && p.verified && <UsosLocal property={p} />}
           <section className="mt-10">
             <h2 className="font-display text-3xl uppercase">Ubicación</h2>
             <p className="mt-2 text-ivory/80">{p.addressPublic}, {p.commune}, {p.region}</p>

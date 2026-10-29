@@ -3,10 +3,10 @@ import Link from 'next/link';
 import { motion, useReducedMotion } from 'framer-motion';
 import { SITE, waLink } from '@/lib/site';
 
-// Foto de portada: public/leon/leon-canales-costanera.jpg (con la Gran Torre Costanera). Para una foto horizontal con fondo propio
+// Foto de portada: public/leon/leon-canales-costanera-v2.jpg (con la Gran Torre Costanera). Para una foto horizontal con fondo propio
 // (ciudad, cordillera, propiedad) basta subir el archivo con un nombre nuevo y cambiar esta ruta.
 // El nombre lleva fecha: las imágenes se cachean un año (immutable), así que una foto nueva necesita un nombre nuevo.
-const HERO_IMG = '/leon/leon-canales-costanera.jpg';
+const HERO_IMG = '/leon/leon-canales-costanera-v2.jpg';
 
 const line = { hidden: { y: '110%' }, show: (i: number) => ({ y: 0, transition: { duration: 0.9, delay: 0.15 + i * 0.12, ease: [0.22, 1, 0.36, 1] } }) };
 

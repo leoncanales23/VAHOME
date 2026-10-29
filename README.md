@@ -33,7 +33,7 @@ Cada merge a `main` publica solo con `.github/workflows/deploy.yml` (también se
 | 6. Producción | ⏳ |
 
 ## Pendientes antes de publicar
-- [ ] Foto oficial autorizada de León → `public/leon/leon-canales-2026-10.jpg` y pasar `src` a `<Portrait />`.
+- [x] Foto de León retocada → `public/leon/leon-canales-costanera-v13.jpg` (portada y /hola/) y `leon-canales-retrato-v13.jpg` (4:5, `<Portrait />`).
 - [ ] Superficie (m²) del Local 170.
 - [ ] Reemplazar demos por propiedades verificadas.
 - [ ] Revisión legal de `/legal/*` (marcados como borrador).

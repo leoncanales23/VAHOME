@@ -1,6 +1,6 @@
 import Monogram from './Monogram';
-// Retrato de León (public/leon/leon-canales-2026-10.jpg, 4:5). Pasa src={''} para ver el marcador provisorio.
-export default function Portrait({ src = '/leon/leon-canales-2026-10.jpg', className = '' }: { src?: string; className?: string }) {
+// Retrato de León (public/leon/leon-canales-retrato-v13.jpg, 4:5). Pasa src={''} para ver el marcador provisorio.
+export default function Portrait({ src = '/leon/leon-canales-retrato-v13.jpg', className = '' }: { src?: string; className?: string }) {
   if (src) return <img src={src} alt="León Canales, asesor inmobiliario de VA HOME" className={`h-full w-full object-cover ${className}`} />;
   return (
     <div className={`relative flex h-full w-full items-center justify-center overflow-hidden bg-charcoal ${className}`}>

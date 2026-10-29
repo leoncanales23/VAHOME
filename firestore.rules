@@ -1,21 +1,90 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-    // Visitas: el público solo puede crear solicitudes válidas. Nadie las lee desde el sitio.
+    // Administradores: un documento por correo en /admins (se crea a mano en la consola).
+    function isAdmin() {
+      return request.auth != null && request.auth.token.email_verified == true
+        && exists(/databases/$(database)/documents/admins/$(request.auth.token.email));
+    }
+    function str(v, max) { return v is string && v.size() <= max; }
+    // Solo el equipo cambia el seguimiento de una solicitud, nunca sus datos de origen.
+    function followUpOnly() {
+      return request.resource.data.diff(resource.data).affectedKeys().hasOnly(['estado', 'responsable', 'notas', 'updatedAt', 'updatedBy'])
+        && request.resource.data.estado in ['nueva', 'contactada', 'visita agendada', 'cerrada', 'descartada']
+        && str(request.resource.data.get('responsable', ''), 80)
+        && str(request.resource.data.get('notas', ''), 1000);
+    }
+
+    match /admins/{email} {
+      allow read: if request.auth != null && request.auth.token.email == email;
+      allow write: if false;
+    }
+
+    // Inventario: el público lee solo lo publicado; el equipo lee y edita todo.
+    match /properties/{id} {
+      allow read: if resource.data.status == 'publicada' || isAdmin();
+      allow create, update: if isAdmin()
+        && request.resource.data.status in ['borrador', 'publicada', 'retirada']
+        && str(request.resource.data.slug, 120) && str(request.resource.data.ref, 20) && str(request.resource.data.title, 200)
+        && request.resource.data.price is number;
+      allow delete: if false;
+      match /history/{h} {
+        allow read: if isAdmin();
+        allow create: if isAdmin() && request.resource.data.by == request.auth.token.email;
+        allow update, delete: if false;
+      }
+    }
+
+    // Solicitudes de visita: el público solo crea solicitudes válidas.
     match /visits/{id} {
-      allow read, update, delete: if false;
+      allow read: if isAdmin();
+      allow update: if isAdmin() && followUpOnly();
+      allow delete: if false;
       allow create: if request.resource.data.keys().hasOnly(['slug','ref','title','nombre','telefono','fecha','franja','mensaje','estado','createdAt'])
-        && request.resource.data.nombre is string && request.resource.data.nombre.size() > 0 && request.resource.data.nombre.size() <= 120
-        && request.resource.data.telefono is string && request.resource.data.telefono.size() >= 8 && request.resource.data.telefono.size() <= 30
-        && request.resource.data.mensaje is string && request.resource.data.mensaje.size() <= 500
-        && request.resource.data.slug is string && request.resource.data.slug.size() <= 120
-        && request.resource.data.ref is string && request.resource.data.ref.size() <= 20
-        && request.resource.data.title is string && request.resource.data.title.size() <= 200
-        && request.resource.data.fecha is string && request.resource.data.fecha.size() <= 10
-        && request.resource.data.franja is string && request.resource.data.franja.size() <= 40
+        && str(request.resource.data.nombre, 120) && request.resource.data.nombre.size() > 0
+        && str(request.resource.data.telefono, 30) && request.resource.data.telefono.size() >= 8
+        && str(request.resource.data.mensaje, 500)
+        && str(request.resource.data.slug, 120) && str(request.resource.data.ref, 20) && str(request.resource.data.title, 200)
+        && str(request.resource.data.fecha, 10) && str(request.resource.data.franja, 40)
         && request.resource.data.estado == 'nueva'
         && request.resource.data.createdAt == request.time;
     }
+
+    // Captación de propietarios: requiere consentimiento explícito.
+    match /owners/{id} {
+      allow read: if isAdmin();
+      allow update: if isAdmin() && followUpOnly();
+      allow delete: if false;
+      allow create: if request.resource.data.keys().hasOnly(['nombre','telefono','tipo','comuna','precio','descripcion','canal','consentimiento','estado','createdAt'])
+        && str(request.resource.data.nombre, 120) && request.resource.data.nombre.size() > 0
+        && str(request.resource.data.telefono, 30) && request.resource.data.telefono.size() >= 8
+        && str(request.resource.data.tipo, 20) && str(request.resource.data.comuna, 80) && request.resource.data.comuna.size() > 0
+        && str(request.resource.data.precio, 30) && str(request.resource.data.descripcion, 2000)
+        && request.resource.data.canal in ['whatsapp', 'correo']
+        && request.resource.data.consentimiento == true
+        && request.resource.data.estado == 'nueva'
+        && request.resource.data.createdAt == request.time;
+    }
+
+    // Eventos de medición: anónimos, sin datos personales, solo creación.
+    match /events/{id} {
+      allow read: if isAdmin();
+      allow update, delete: if false;
+      allow create: if request.resource.data.keys().hasOnly(['type', 'path', 'ref', 'ts'])
+        && request.resource.data.type in ['whatsapp', 'llamada', 'qr', 'formulario_visita', 'formulario_propietario', 'contacto_guardado']
+        && str(request.resource.data.path, 200) && str(request.resource.data.ref, 20)
+        && request.resource.data.ts is timestamp
+        && request.resource.data.ts > request.time - duration.value(10, 'm')
+        && request.resource.data.ts < request.time + duration.value(10, 'm');
+    }
+
+    // Registro de auditoría de acciones del panel.
+    match /auditLog/{id} {
+      allow read: if isAdmin();
+      allow create: if isAdmin() && request.resource.data.by == request.auth.token.email;
+      allow update, delete: if false;
+    }
+
     match /{document=**} { allow read, write: if false; }
   }
 }

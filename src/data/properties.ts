@@ -1,3 +1,5 @@
+import inventory from './inventory.json';
+
 // Registro estructurado de propiedades.
 // REGLA: solo `verified: true` para propiedades con datos confirmados por León.
 // Las propiedades `demo` son ejemplos de interfaz y se muestran marcadas como DEMO.
@@ -32,9 +34,14 @@ export interface Property {
   images: string[];
   video?: { src: string; poster: string };   // recorrido vertical (9:16)
   mapQuery?: string;
+  status?: 'borrador' | 'publicada' | 'retirada';   // estado de publicación (Firestore)
+  updatedAt?: string;        // ISO, última edición desde el panel
+  updatedBy?: string;        // correo de quien editó
 }
 
-export const properties: Property[] = [
+// Inventario semilla: se usa mientras Firestore no tenga propiedades publicadas
+// (y sirve para cargarlas desde el panel con «Importar inventario del sitio»).
+export const seedProperties: Property[] = [
   {
     slug: 'local-170-galeria-los-joyeros',
     ref: 'VAH-001',
@@ -109,6 +116,10 @@ export const properties: Property[] = [
     description: 'Propiedad de demostración. Será reemplazada por inventario verificado.', images: [],
   },
 ];
+
+// En el build, scripts/fetch-inventory.mjs escribe aquí las propiedades publicadas en Firestore.
+const published = inventory as unknown as Property[];
+export const properties: Property[] = published.length ? published : seedProperties;
 
 export const typeLabel: Record<PropertyType, string> = {
   casa: 'Casa', departamento: 'Departamento', local: 'Local comercial', oficina: 'Oficina', terreno: 'Terreno',

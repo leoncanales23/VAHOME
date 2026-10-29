@@ -1,0 +1,10 @@
+name = "vahome-worker"
+main = "src/index.js"
+compatibility_date = "2026-10-01"
+
+[vars]
+ALLOWED_ORIGINS = "https://vahome.vibraalto.cl,https://va-home-d3708.web.app"
+FIREBASE_PROJECT_ID = "va-home-d3708"
+GITHUB_REPO = "leoncanales23/VAHOME"
+NOTIFY_TO = "leon_canales@vibraalto.cl"
+NOTIFY_FROM = "VAHOME <avisos@vibraalto.cl>"

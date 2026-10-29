@@ -3,7 +3,8 @@ import { usePathname } from 'next/navigation';
 import { waLink } from '@/lib/site';
 export default function WhatsAppFloat() {
   // La landing del QR (/hola/) trae su propia barra de contacto.
-  if (usePathname()?.startsWith('/hola')) return null;
+  const path = usePathname();
+  if (path?.startsWith('/hola') || path?.startsWith('/admin')) return null;
   return (
     <a href={waLink('Hola León, te escribo desde VA HOME.')} target="_blank" rel="noopener"
       className="fixed bottom-5 right-5 z-40 flex h-14 items-center justify-center gap-3 rounded-full bg-[#25D366] px-3.5 shadow-lg shadow-black/40 transition hover:scale-105 md:px-5"

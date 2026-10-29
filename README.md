@@ -14,6 +14,8 @@ firebase deploy --only hosting
 ```
 `firebase.json` apunta al sitio `va-home-d3708` del proyecto `va-home-d3708` (ver `.firebaserc`). El dominio `vahome.vibraalto.cl` se conecta en Firebase Hosting → "Agregar un dominio personalizado" y en Cloudflare (CNAME `vahome` → `va-home-d3708.web.app`, solo DNS).
 
+Cada merge a `main` publica solo con `.github/workflows/deploy.yml` (también se puede lanzar a mano en Actions → *Deploy Firebase Hosting* → *Run workflow*). Necesita el secret `FIREBASE_SERVICE_ACCOUNT` en GitHub con el JSON de una cuenta de servicio del proyecto `va-home-d3708` con rol *Firebase Hosting Admin*.
+
 ## Estructura
 - `src/data/properties.ts` — registro de propiedades. `verified: true` solo para datos confirmados; las `DEMO-*` se muestran marcadas y no se indexan.
 - `src/lib/site.ts` — datos de contacto, empresa y mensajes de WhatsApp contextuales.

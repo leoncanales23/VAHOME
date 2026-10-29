@@ -4,6 +4,7 @@ import QuickSearch from '@/components/QuickSearch';
 import Reveal from '@/components/Reveal';
 import PropertyCard from '@/components/PropertyCard';
 import Portrait from '@/components/Portrait';
+import PropertyVideo from '@/components/PropertyVideo';
 import { properties } from '@/data/properties';
 import { SITE, clp, propertyWa, waLink } from '@/lib/site';
 
@@ -89,7 +90,20 @@ export default function Home() {
 
       {/* León */}
       <section className="container-va grid gap-12 py-24 lg:grid-cols-[0.8fr_1.2fr] lg:items-center">
-        <Reveal><div className="aspect-[4/5] overflow-hidden rounded-[28px] border border-gold/30"><Portrait /></div></Reveal>
+        {/* El rostro de León ya está en la portada; aquí va el recorrido en video de la propiedad destacada */}
+        <Reveal>
+          {featured.video ? (
+            <figure>
+              <PropertyVideo video={featured.video} title={featured.title} />
+              <figcaption className="mt-4 text-center text-sm text-ivory/70">
+                Recorrido: {featured.title} ·{' '}
+                <Link href={`/propiedades/${featured.slug}/`} className="text-gold underline-offset-4 hover:underline">ver ficha</Link>
+              </figcaption>
+            </figure>
+          ) : (
+            <div className="aspect-[4/5] overflow-hidden rounded-[28px] border border-gold/30"><Portrait /></div>
+          )}
+        </Reveal>
         <Reveal delay={0.1}>
           <p className="eyebrow">León Canales</p>
           <p className="mt-3 font-display text-3xl uppercase text-gold md:text-4xl">{SITE.catchphrase}</p>

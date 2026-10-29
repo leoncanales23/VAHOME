@@ -10,7 +10,7 @@ import { SITE, clp, propertyWa, waLink } from '@/lib/site';
 
 export default function Home() {
   const featured = properties.find((p) => p.featured && p.verified)!;
-  const listed = [...properties].sort((a, b) => Number(b.verified) - Number(a.verified)).slice(0, 3);
+  const listed = properties.filter((p) => p.verified).slice(0, 3);
   return (
     <>
       <Hero />

@@ -12,7 +12,7 @@ export default function Catalog() {
   const [comuna, setComuna] = useState(sp.get('comuna') ?? '');
   const [max, setMax] = useState('');
   const [sort, setSort] = useState('destacadas');
-  const [showDemo, setShowDemo] = useState(true);
+  const [showDemo, setShowDemo] = useState(false);
   const comunas = Array.from(new Set(properties.map((p) => p.commune))).sort();
 
   const list = useMemo(() => {

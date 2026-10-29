@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "npx serve out",
-    "lint": "next lint"
+    "lint": "next lint",
+    "test": "node --test worker/test/auth.test.mjs worker/test/notify.test.mjs scripts/inventory.test.mjs"
   },
   "dependencies": {
     "firebase": "10.14.1",

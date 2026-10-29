@@ -227,7 +227,10 @@ function Inventory({ user }: { user: User }) {
   const load = useCallback(async () => {
     const { db, fs } = await getFirebase();
     const snap = await fs.getDocs(fs.collection(db, 'properties'));
-    setRows(snap.docs.map((d) => d.data() as Property).sort((a, b) => a.ref.localeCompare(b.ref)));
+    setRows(snap.docs.map((d) => {
+      const p = d.data() as Property, seed = seedProperties.find((x) => x.slug === p.slug)?.uses;
+      return seed ? { ...p, uses: { ...seed, ...p.uses } } : p;
+    }).sort((a, b) => a.ref.localeCompare(b.ref)));
   }, []);
   useEffect(() => { load().catch((e) => setNote(`Error al leer el inventario: ${e.message}`)); }, [load]);
 
@@ -291,6 +294,7 @@ function PropertyForm({ initial, onSave, onCancel }: { initial: Property; onSave
   const [text, setText] = useState(() => ({
     features: initial.features.join('\n'), conditions: initial.conditions.join('\n'), images: initial.images.join('\n'),
     costs: (initial.extraCosts ?? []).map((c) => [c.label, c.amount, c.before ?? ''].join(' | ')).join('\n'),
+    uses: Object.entries(initial.uses ?? {}).map(([k, v]) => `${k} | ${v}`).join('\n'),
   }));
   const [err, setErr] = useState('');
   const [busy, setBusy] = useState(false);
@@ -304,6 +308,7 @@ function PropertyForm({ initial, onSave, onCancel }: { initial: Property; onSave
     e.preventDefault();
     const out: Property = {
       ...p, features: lines(text.features), conditions: lines(text.conditions), images: lines(text.images),
+      uses: Object.fromEntries(lines(text.uses).map((l) => l.split('|').map((x) => x.trim())).filter(([k, v]) => k && v)),
       extraCosts: lines(text.costs).map((l) => { const [label, amount, before] = l.split('|').map((x) => x.trim()); return clean({ label, amount: Number(amount), before: before ? Number(before) : undefined }); }),
     };
     if (!/^[a-z0-9-]{3,120}$/.test(out.slug)) return setErr('El identificador (slug) usa solo minúsculas, números y guiones.');
@@ -342,6 +347,7 @@ function PropertyForm({ initial, onSave, onCancel }: { initial: Property; onSave
       <label className="text-sm">Características (una por línea)<textarea className="field mt-1 min-h-28" value={text.features} onChange={(e) => setText({ ...text, features: e.target.value })} /></label>
       <label className="text-sm">Condiciones (una por línea)<textarea className="field mt-1 min-h-28" value={text.conditions} onChange={(e) => setText({ ...text, conditions: e.target.value })} /></label>
       <label className="text-sm">Otros costos: nombre | monto | antes<textarea className="field mt-1 min-h-28" value={text.costs} onChange={(e) => setText({ ...text, costs: e.target.value })} placeholder="Gastos comunes | 50000" /></label>
+      <label className="text-sm md:col-span-3">Simulaciones por rubro: rubro | imagen (cafe, joyeria, barberia, jugueteria, floreria, celulares, cajeros, defensa)<textarea className="field mt-1 min-h-28 font-mono text-xs" value={text.uses} onChange={(e) => setText({ ...text, uses: e.target.value })} placeholder="floreria | /propiedades/mi-local/rubros/floreria-v1.webp" /></label>
       <label className="text-sm md:col-span-2">Fotos (una ruta o URL por línea)<textarea className="field mt-1 min-h-24" value={text.images} onChange={(e) => setText({ ...text, images: e.target.value })} placeholder="/propiedades/mi-propiedad/01.jpg" /></label>
       <div className="grid gap-3 text-sm">
         <label className="flex items-center gap-2"><input type="checkbox" checked={p.verified} onChange={(e) => set('verified', e.target.checked)} className="accent-[#D9B26A]" /> Datos verificados por León</label>

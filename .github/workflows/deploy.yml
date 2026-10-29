@@ -1,0 +1,30 @@
+# Publica el sitio en Firebase Hosting (va-home-d3708) con cada push a main.
+# Requiere el secret FIREBASE_SERVICE_ACCOUNT: JSON de una cuenta de servicio con rol "Firebase Hosting Admin".
+name: Deploy Firebase Hosting
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-hosting
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      - uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          repoToken: ${{ secrets.GITHUB_TOKEN }}
+          firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+          projectId: va-home-d3708
+          channelId: live

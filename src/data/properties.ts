@@ -74,7 +74,7 @@ export const properties: Property[] = [
     ],
     description:
       'Local comercial en el entrepiso de la Galería Los Joyeros, en pleno centro histórico de Santiago. Vitrina en esquina con doble frente, iluminación LED y tablero eléctrico propio. Cuenta con baño privado para el personal. El espacio se entrega para habilitar según el rubro del arrendatario.',
-    images: ['01', '02', '03', '04', '05', '06', '07'].map(
+    images: ['01', '02', '03', '04', '06', '07'].map(
       (n) => `/propiedades/local-170-galeria-los-joyeros/local170-${n}.jpg`,
     ),
     video: {

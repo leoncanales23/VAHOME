@@ -126,7 +126,7 @@ export default function QrLanding({ property }: { property?: Property }) {
       )}
 
       {property?.type === 'local' && property.verified && (
-        <div className="container-va pb-4"><UsosLocal title="¿Qué negocio pondrías aquí?" /></div>
+        <div className="container-va pb-4"><UsosLocal title="¿Qué negocio pondrías aquí?" property={property} /></div>
       )}
 
       {/* 3 · Confianza */}

@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { motion, useReducedMotion } from 'framer-motion';
 import Reveal from './Reveal';
 import PropertyVideo from './PropertyVideo';
+import UsosLocal from './UsosLocal';
 import { services } from './Hero';
 import { SITE, clp, propertyWa, waLink } from '@/lib/site';
 import { areaOf, fmtM, typeLabel, type Property } from '@/data/properties';
@@ -122,6 +123,10 @@ export default function QrLanding({ property }: { property?: Property }) {
             </div>
           )}
         </section>
+      )}
+
+      {property?.type === 'local' && property.verified && (
+        <div className="container-va pb-4"><UsosLocal title="¿Qué negocio pondrías aquí?" /></div>
       )}
 
       {/* 3 · Confianza */}

@@ -86,7 +86,7 @@ export default function UsosLocal({ title = '¿Qué puede ser este local?', prop
         <p className="shrink-0 text-sm text-ivory/60" aria-live="polite">{i + 1} / {n}</p>
       </div>
       <p className="mt-2 text-sm text-ivory/70">
-        El mismo espacio, distintos negocios. {hasSims ? 'Simulaciones generadas con IA a partir de una foto real del local: muestran una posibilidad, no el estado actual.' : 'Esquemas referenciales para imaginar el local.'} Cada rubro requiere sus propios permisos municipales.
+        El mismo espacio, distintos negocios. {hasSims ? 'Imágenes generadas con IA: muestran una posibilidad, no el estado actual del local.' : 'Esquemas referenciales para imaginar el local.'} Cada rubro requiere sus propios permisos municipales.
       </p>
 
       <div

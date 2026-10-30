@@ -12,6 +12,7 @@ export default {
         script: ['Caveat', 'cursive'],
       },
       letterSpacing: { brand: '0.18em' },
+      keyframes: { fadeIn: { from: { opacity: '0' }, to: { opacity: '1' } } },
     },
   },
   plugins: [],

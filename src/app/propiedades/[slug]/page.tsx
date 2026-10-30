@@ -39,7 +39,7 @@ export default function Page({ params }: { params: { slug: string } }) {
       <nav className="text-sm text-steel" aria-label="Ruta"><Link href="/propiedades/" className="hover:text-gold">Propiedades</Link> / {p.ref}</nav>
       {!p.verified && <p className="mt-4 rounded-xl border border-red-500/40 bg-red-500/10 p-4 text-sm text-red-200">Ficha de demostración. No corresponde a una propiedad disponible.</p>}
       <div className="mt-6 grid gap-10 lg:grid-cols-[1.4fr_1fr]">
-        <div>
+        <div className="min-w-0">
           <Gallery images={p.images} title={p.title} />
           {p.video && (
             <section className="mt-10">

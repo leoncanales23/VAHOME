@@ -31,8 +31,7 @@ export default function Hero() {
       {/* Foto: arriba en móvil; a la derecha y fundida con el fondo en escritorio (sin recortar el rostro) */}
       <div aria-hidden className="relative h-[58svh] w-full lg:absolute lg:bottom-0 lg:right-0 lg:top-20 lg:h-auto lg:w-[66%]">
         <motion.img src={HERO_IMG} alt="" initial={reduce ? false : { scale: 1.04, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ duration: 1.4, ease: [0.22, 1, 0.36, 1] }}
-          className="h-full w-full object-cover object-[60%_12%] lg:ml-auto lg:block lg:w-auto"
-          style={{ WebkitMaskImage: 'linear-gradient(to right, transparent 0%, #000 40%)', maskImage: 'linear-gradient(to right, transparent 0%, #000 40%)' }} />
+          className="h-full w-full object-cover object-[60%_12%] lg:ml-auto lg:block lg:w-auto lg:[mask-image:linear-gradient(to_right,transparent_0%,#000_40%)]" />
         <div className="absolute inset-0 bg-gradient-to-t from-obsidian via-obsidian/20 to-transparent lg:via-transparent" />
       </div>
 

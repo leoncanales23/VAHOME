@@ -1,5 +1,6 @@
 # Publica el sitio en Firebase Hosting (va-home-d3708) con cada push a main.
 # Requiere el secret FIREBASE_SERVICE_ACCOUNT: JSON de una cuenta de servicio con rol "Firebase Hosting Admin".
+# Opcional: los secrets NEXT_PUBLIC_FIREBASE_* (ver .env.example) para que el formulario de visitas guarde en Firestore.
 name: Deploy Firebase Hosting
 
 on:
@@ -22,6 +23,12 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run build
+        # Claves web de Firebase para el formulario de visitas. Si faltan, el formulario usa WhatsApp.
+        env:
+          NEXT_PUBLIC_FIREBASE_API_KEY: ${{ secrets.NEXT_PUBLIC_FIREBASE_API_KEY }}
+          NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN: ${{ secrets.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN }}
+          NEXT_PUBLIC_FIREBASE_PROJECT_ID: ${{ secrets.NEXT_PUBLIC_FIREBASE_PROJECT_ID }}
+          NEXT_PUBLIC_FIREBASE_APP_ID: ${{ secrets.NEXT_PUBLIC_FIREBASE_APP_ID }}
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: ${{ secrets.GITHUB_TOKEN }}
